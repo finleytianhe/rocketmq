@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement>org.apache.rocketmq.filter.FilterFactory</OriginalElement>
+  <nodes>
+    <node x="266.55909090909086" y="79.0">org.apache.rocketmq.filter.expression.PropertyExpression</node>
+    <node x="455.55909090909086" y="79.0">org.apache.rocketmq.filter.expression.UnaryExpression</node>
+    <node x="817.0" y="242.0">org.apache.rocketmq.filter.expression.MQFilterException</node>
+    <node x="675.0" y="242.0">org.apache.rocketmq.filter.FilterSpi</node>
+    <node x="0.0" y="321.0">org.apache.rocketmq.filter.parser.SelectorParser</node>
+    <node x="0.0" y="469.0">org.apache.rocketmq.filter.util.BitsArray</node>
+    <node x="491.7568181818182" y="0.0">org.apache.rocketmq.filter.expression.Expression</node>
+    <node x="73.55909090909086" y="79.0">org.apache.rocketmq.filter.expression.ConstantExpression</node>
+    <node x="0.0" y="168.0">org.apache.rocketmq.filter.expression.NowExpression</node>
+    <node x="628.5590909090909" y="79.0">org.apache.rocketmq.filter.expression.BooleanExpression</node>
+    <node x="908.0068181818182" y="79.0">org.apache.rocketmq.filter.expression.BinaryExpression</node>
+    <node x="581.0" y="395.0">org.apache.rocketmq.filter.FilterFactory</node>
+    <node x="195.88181818181818" y="168.0">org.apache.rocketmq.filter.expression.BooleanConstantExpression</node>
+    <node x="881.7568181818182" y="168.0">org.apache.rocketmq.filter.expression.ComparisonExpression</node>
+    <node x="750.0" y="395.0">org.apache.rocketmq.filter.util.BloomFilter</node>
+    <node x="395.0" y="395.0">org.apache.rocketmq.filter.parser.TokenMgrError</node>
+    <node x="150.0" y="469.0">org.apache.rocketmq.filter.parser.Token</node>
+    <node x="912.0" y="395.0">org.apache.rocketmq.filter.constant.UnaryType</node>
+    <node x="675.0" y="321.0">org.apache.rocketmq.filter.SqlFilter</node>
+    <node x="157.0" y="321.0">org.apache.rocketmq.filter.parser.SelectorParserTokenManager</node>
+    <node x="508.7568181818181" y="168.0">org.apache.rocketmq.filter.expression.UnaryInExpression</node>
+    <node x="430.0" y="321.0">org.apache.rocketmq.filter.expression.EmptyEvaluationContext</node>
+    <node x="712.7568181818182" y="168.0">org.apache.rocketmq.filter.expression.LogicExpression</node>
+    <node x="0.0" y="395.0">org.apache.rocketmq.filter.parser.SimpleCharStream</node>
+    <node x="205.0" y="395.0">org.apache.rocketmq.filter.util.BloomFilterData</node>
+    <node x="69.25" y="242.0">org.apache.rocketmq.filter.parser.SelectorParserConstants</node>
+    <node x="449.5" y="242.0">org.apache.rocketmq.filter.expression.EvaluationContext</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="org.apache.rocketmq.filter.expression.BooleanExpression" target="org.apache.rocketmq.filter.expression.Expression">
+      <point x="0.0" y="-14.5" />
+      <point x="711.5590909090909" y="59.0" />
+      <point x="572.9568181818182" y="59.0" />
+      <point x="23.200000000000045" y="14.5" />
+    </edge>
+    <edge source="org.apache.rocketmq.filter.expression.ComparisonExpression" target="org.apache.rocketmq.filter.expression.BooleanExpression">
+      <point x="-47.5" y="-14.5" />
+      <point x="929.2568181818182" y="138.0" />
+      <point x="773.8090909090909" y="138.0" />
+      <point x="62.25" y="14.5" />
+    </edge>
+    <edge source="org.apache.rocketmq.filter.expression.BinaryExpression" target="org.apache.rocketmq.filter.expression.Expression">
+      <point x="0.0" y="-14.5" />
+      <point x="985.5068181818182" y="49.0" />
+      <point x="596.1568181818182" y="49.0" />
+      <point x="46.39999999999998" y="14.5" />
+    </edge>
+    <edge source="org.apache.rocketmq.filter.expression.LogicExpression" target="org.apache.rocketmq.filter.expression.BinaryExpression">
+      <point x="37.25" y="-14.5" />
+      <point x="824.5068181818182" y="148.0" />
+      <point x="946.7568181818182" y="148.0" />
+      <point x="-38.75" y="14.5" />
+    </edge>
+    <edge source="org.apache.rocketmq.filter.expression.ComparisonExpression" target="org.apache.rocketmq.filter.expression.BinaryExpression">
+      <point x="47.5" y="-14.5" />
+      <point x="38.75" y="14.5" />
+    </edge>
+    <edge source="org.apache.rocketmq.filter.expression.UnaryInExpression" target="org.apache.rocketmq.filter.expression.BooleanExpression">
+      <point x="41.00000000000006" y="-14.5" />
+      <point x="631.7568181818182" y="148.0" />
+      <point x="690.8090909090909" y="148.0" />
+      <point x="-20.75" y="14.5" />
+    </edge>
+    <edge source="org.apache.rocketmq.filter.SqlFilter" target="org.apache.rocketmq.filter.FilterSpi">
+      <point x="0.0" y="-14.5" />
+      <point x="0.0" y="14.5" />
+    </edge>
+    <edge source="org.apache.rocketmq.filter.expression.UnaryInExpression" target="org.apache.rocketmq.filter.expression.UnaryExpression">
+      <point x="-40.99999999999994" y="-14.5" />
+      <point x="549.7568181818182" y="128.0" />
+      <point x="532.0590909090909" y="128.0" />
+      <point x="0.0" y="14.5" />
+    </edge>
+    <edge source="org.apache.rocketmq.filter.expression.BooleanConstantExpression" target="org.apache.rocketmq.filter.expression.ConstantExpression">
+      <point x="-55.75" y="-14.5" />
+      <point x="251.63181818181818" y="148.0" />
+      <point x="203.30909090909086" y="148.0" />
+      <point x="43.25" y="14.5" />
+    </edge>
+    <edge source="org.apache.rocketmq.filter.expression.BooleanConstantExpression" target="org.apache.rocketmq.filter.expression.BooleanExpression">
+      <point x="55.75" y="-14.5" />
+      <point x="363.1318181818182" y="138.0" />
+      <point x="649.3090909090909" y="138.0" />
+      <point x="-62.25" y="14.5" />
+    </edge>
+    <edge source="org.apache.rocketmq.filter.expression.UnaryExpression" target="org.apache.rocketmq.filter.expression.Expression">
+      <point x="0.0" y="-14.5" />
+      <point x="532.0590909090909" y="59.0" />
+      <point x="549.7568181818182" y="59.0" />
+      <point x="0.0" y="14.5" />
+    </edge>
+    <edge source="org.apache.rocketmq.filter.expression.EmptyEvaluationContext" target="org.apache.rocketmq.filter.expression.EvaluationContext">
+      <point x="0.0" y="-14.5" />
+      <point x="0.0" y="14.5" />
+    </edge>
+    <edge source="org.apache.rocketmq.filter.expression.PropertyExpression" target="org.apache.rocketmq.filter.expression.Expression">
+      <point x="1.1368683772161603E-13" y="-14.5" />
+      <point x="351.05909090909097" y="59.0" />
+      <point x="526.5568181818182" y="59.0" />
+      <point x="-23.19999999999999" y="14.5" />
+    </edge>
+    <edge source="org.apache.rocketmq.filter.expression.NowExpression" target="org.apache.rocketmq.filter.expression.ConstantExpression">
+      <point x="0.0" y="-14.5" />
+      <point x="72.0" y="148.0" />
+      <point x="116.80909090909086" y="148.0" />
+      <point x="-43.25" y="14.5" />
+    </edge>
+    <edge source="org.apache.rocketmq.filter.expression.LogicExpression" target="org.apache.rocketmq.filter.expression.BooleanExpression">
+      <point x="-37.25" y="-14.5" />
+      <point x="750.0068181818182" y="148.0" />
+      <point x="732.3090909090909" y="148.0" />
+      <point x="20.75" y="14.5" />
+    </edge>
+    <edge source="org.apache.rocketmq.filter.expression.ConstantExpression" target="org.apache.rocketmq.filter.expression.Expression">
+      <point x="0.0" y="-14.5" />
+      <point x="160.05909090909086" y="49.0" />
+      <point x="503.3568181818182" y="49.0" />
+      <point x="-46.39999999999998" y="14.5" />
+    </edge>
+    <edge source="org.apache.rocketmq.filter.parser.SelectorParser" target="org.apache.rocketmq.filter.parser.SelectorParserConstants">
+      <point x="0.0" y="-14.5" />
+      <point x="68.5" y="296.0" />
+      <point x="119.5" y="296.0" />
+      <point x="-50.25" y="14.5" />
+    </edge>
+    <edge source="org.apache.rocketmq.filter.parser.SelectorParserTokenManager" target="org.apache.rocketmq.filter.parser.SelectorParserConstants">
+      <point x="0.0" y="-14.5" />
+      <point x="271.0" y="296.0" />
+      <point x="220.0" y="296.0" />
+      <point x="50.25" y="14.5" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic Group" zoom="1.0" x="62.0" y="14.5" />
+  <SelectedNodes>
+    <node>org.apache.rocketmq.filter.FilterFactory</node>
+  </SelectedNodes>
+  <Categories />
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>private</VISIBILITY>
+</Diagram>
+

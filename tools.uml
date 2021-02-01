@@ -1,0 +1,418 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement>org.apache.rocketmq.tools.admin.DefaultMQAdminExt</OriginalElement>
+  <nodes>
+    <node x="1280.0" y="393.0">org.apache.rocketmq.tools.command.topic.RebalanceResult</node>
+    <node x="232.0" y="319.0">org.apache.rocketmq.tools.command.topic.DeleteTopicSubCommand</node>
+    <node x="6866.0" y="319.0">org.apache.rocketmq.tools.command.message.QueryMsgByKeySubCommand</node>
+    <node x="7122.0" y="319.0">org.apache.rocketmq.tools.command.message.SendMessageCommand</node>
+    <node x="12767.0" y="319.0">org.apache.rocketmq.tools.command.acl.DeleteAccessConfigSubCommand</node>
+    <node x="13044.0" y="319.0">org.apache.rocketmq.tools.command.acl.ClusterAclConfigVersionListSubCommand</node>
+    <node x="1081.0" y="393.0">org.apache.rocketmq.tools.monitor.DeleteMsgsEvent</node>
+    <node x="9406.0" y="319.0">org.apache.rocketmq.tools.command.connection.ConsumerConnectionSubCommand</node>
+    <node x="12202.0" y="319.0">org.apache.rocketmq.tools.command.acl.UpdateGlobalWhiteAddrSubCommand</node>
+    <node x="456.0" y="393.0">org.apache.rocketmq.tools.monitor.MonitorListener</node>
+    <node x="4283.0" y="319.0">org.apache.rocketmq.tools.command.namesrv.UpdateKvConfigCommand</node>
+    <node x="8840.0" y="319.0">org.apache.rocketmq.tools.command.consumer.DeleteSubscriptionGroupCommand</node>
+    <node x="458.0" y="319.0">org.apache.rocketmq.tools.command.topic.TopicListSubCommand</node>
+    <node x="1841.0" y="319.0">org.apache.rocketmq.tools.command.topic.UpdateOrderConfCommand</node>
+    <node x="3787.0" y="319.0">org.apache.rocketmq.tools.command.namesrv.WipeWritePermSubCommand</node>
+    <node x="9125.0" y="319.0">org.apache.rocketmq.tools.command.connection.ProducerConnectionSubCommand</node>
+    <node x="2021.0" y="393.0">org.apache.rocketmq.tools.command.CommandUtil</node>
+    <node x="10922.0" y="319.0">org.apache.rocketmq.tools.command.broker.BrokerStatusSubCommand</node>
+    <node x="11438.0" y="319.0">org.apache.rocketmq.tools.command.broker.CleanExpiredCQSubCommand</node>
+    <node x="2547.0" y="319.0">org.apache.rocketmq.tools.command.offset.CloneGroupOffsetCommand</node>
+    <node x="668.0" y="319.0">org.apache.rocketmq.tools.command.topic.UpdateTopicSubCommand</node>
+    <node x="8568.0" y="319.0">org.apache.rocketmq.tools.command.consumer.ConsumerProgressSubCommand</node>
+    <node x="11157.0" y="319.0">org.apache.rocketmq.tools.command.broker.UpdateBrokerConfigSubCommand</node>
+    <node x="10165.0" y="319.0">org.apache.rocketmq.tools.command.broker.CleanUnusedTopicCommand</node>
+    <node x="7337.0" y="319.0">org.apache.rocketmq.tools.command.message.QueryMsgByIdSubCommand</node>
+    <node x="7843.0" y="319.0">org.apache.rocketmq.tools.command.consumer.StartMonitoringSubCommand</node>
+    <node x="0.0" y="472.0">org.apache.rocketmq.tools.admin.DefaultMQAdminExtImpl</node>
+    <node x="217.0" y="472.0">org.apache.rocketmq.tools.admin.DefaultMQAdminExt</node>
+    <node x="1353.0" y="319.0">org.apache.rocketmq.tools.command.topic.UpdateTopicPermSubCommand</node>
+    <node x="434.0" y="472.0">org.apache.rocketmq.tools.monitor.DefaultMonitorListener</node>
+    <node x="6387.0" y="319.0">org.apache.rocketmq.tools.command.message.ConsumeMessageCommand</node>
+    <node x="1658.0" y="393.0">org.apache.rocketmq.tools.monitor.MonitorConfig</node>
+    <node x="2081.0" y="319.0">org.apache.rocketmq.tools.command.stats.StatsAllSubCommand</node>
+    <node x="4785.0" y="319.0">org.apache.rocketmq.tools.command.message.QueryMsgByUniqueKeySubCommand</node>
+    <node x="2790.0" y="319.0">org.apache.rocketmq.tools.command.offset.ResetOffsetByTimeCommand</node>
+    <node x="2533.0" y="393.0">org.apache.rocketmq.tools.admin.api.TrackType</node>
+    <node x="668.0" y="393.0">org.apache.rocketmq.tools.command.consumer.GroupConsumeInfo</node>
+    <node x="6118.0" y="319.0">org.apache.rocketmq.tools.command.message.PrintMessageByQueueCommand</node>
+    <node x="8351.0" y="319.0">org.apache.rocketmq.tools.command.consumer.ConsumerSubCommand</node>
+    <node x="5568.0" y="319.0">org.apache.rocketmq.tools.command.message.QueryMsgByOffsetSubCommand</node>
+    <node x="9694.0" y="319.0">org.apache.rocketmq.tools.command.cluster.CLusterSendMsgRTCommand</node>
+    <node x="9945.0" y="319.0">org.apache.rocketmq.tools.command.cluster.ClusterListSubCommand</node>
+    <node x="7581.0" y="319.0">org.apache.rocketmq.tools.command.consumer.UpdateSubGroupSubCommand</node>
+    <node x="901.0" y="319.0">org.apache.rocketmq.tools.command.topic.TopicStatusSubCommand</node>
+    <node x="2282.0" y="319.0">org.apache.rocketmq.tools.command.queue.QueryConsumeQueueCommand</node>
+    <node x="1473.0" y="393.0">org.apache.rocketmq.tools.monitor.MonitorService</node>
+    <node x="3038.0" y="319.0">org.apache.rocketmq.tools.command.offset.GetConsumerStatusCommand</node>
+    <node x="4515.0" y="319.0">org.apache.rocketmq.tools.command.namesrv.UpdateNamesrvConfigCommand</node>
+    <node x="6431.0" y="0.0">org.apache.rocketmq.tools.command.SubCommand</node>
+    <node x="136.75" y="393.0">org.apache.rocketmq.tools.admin.MQAdminExt</node>
+    <node x="5085.0" y="319.0">org.apache.rocketmq.tools.command.message.CheckMsgSendRTCommand</node>
+    <node x="1129.0" y="319.0">org.apache.rocketmq.tools.command.topic.TopicRouteSubCommand</node>
+    <node x="3293.0" y="319.0">org.apache.rocketmq.tools.command.offset.ResetOffsetByTimeOldCommand</node>
+    <node x="5840.0" y="319.0">org.apache.rocketmq.tools.command.message.QueryMsgTraceByIdSubCommand</node>
+    <node x="5326.0" y="319.0">org.apache.rocketmq.tools.command.message.DecodeMessageIdCommond</node>
+    <node x="882.0" y="393.0">org.apache.rocketmq.tools.command.MQAdminStartup</node>
+    <node x="10645.0" y="319.0">org.apache.rocketmq.tools.command.broker.BrokerConsumeStatsSubCommad</node>
+    <node x="11918.0" y="319.0">org.apache.rocketmq.tools.command.acl.UpdateAccessConfigSubCommand</node>
+    <node x="1840.0" y="393.0">org.apache.rocketmq.tools.admin.api.MessageTrack</node>
+    <node x="2197.0" y="393.0">org.apache.rocketmq.tools.monitor.UndoneMsgs</node>
+    <node x="8094.0" y="319.0">org.apache.rocketmq.tools.command.consumer.ConsumerStatusSubCommand</node>
+    <node x="10411.0" y="319.0">org.apache.rocketmq.tools.command.broker.GetBrokerConfigCommand</node>
+    <node x="1617.0" y="319.0">org.apache.rocketmq.tools.command.topic.AllocateMQSubCommand</node>
+    <node x="0.0" y="319.0">org.apache.rocketmq.tools.command.topic.TopicClusterSubCommand</node>
+    <node x="3562.0" y="319.0">org.apache.rocketmq.tools.command.namesrv.DeleteKvConfigCommand</node>
+    <node x="4036.0" y="319.0">org.apache.rocketmq.tools.command.namesrv.GetNamesrvConfigCommand</node>
+    <node x="11691.0" y="319.0">org.apache.rocketmq.tools.command.broker.SendMsgStatusCommand</node>
+    <node x="2372.0" y="393.0">org.apache.rocketmq.tools.monitor.FailedMsgs</node>
+    <node x="12506.0" y="319.0">org.apache.rocketmq.tools.command.acl.GetAccessConfigSubCommand</node>
+    <node x="6629.0" y="319.0">org.apache.rocketmq.tools.command.message.PrintMessageSubCommand</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="org.apache.rocketmq.tools.admin.DefaultMQAdminExtImpl" target="org.apache.rocketmq.tools.admin.MQAdminExt">
+      <point x="0.0" y="-14.5" />
+      <point x="98.5" y="447.0" />
+      <point x="168.75" y="447.0" />
+      <point x="-32.0" y="14.5" />
+    </edge>
+    <edge source="org.apache.rocketmq.tools.command.message.PrintMessageSubCommand" target="org.apache.rocketmq.tools.command.SubCommand">
+      <point x="0.0" y="-14.5" />
+      <point x="6737.5" y="299.0" />
+      <point x="6500.528301886792" y="299.0" />
+      <point x="2.5283018867921783" y="14.5" />
+    </edge>
+    <edge source="org.apache.rocketmq.tools.command.topic.TopicRouteSubCommand" target="org.apache.rocketmq.tools.command.SubCommand">
+      <point x="0.0" y="-14.5" />
+      <point x="1231.0" y="99.0" />
+      <point x="6444.905660377359" y="99.0" />
+      <point x="-53.0943396226412" y="14.5" />
+    </edge>
+    <edge source="org.apache.rocketmq.tools.command.message.QueryMsgByIdSubCommand" target="org.apache.rocketmq.tools.command.SubCommand">
+      <point x="0.0" y="-14.5" />
+      <point x="7449.0" y="269.0" />
+      <point x="6508.11320754717" y="269.0" />
+      <point x="10.113207547169623" y="14.5" />
+    </edge>
+    <edge source="org.apache.rocketmq.tools.command.message.QueryMsgTraceByIdSubCommand" target="org.apache.rocketmq.tools.command.SubCommand">
+      <point x="0.0" y="-14.5" />
+      <point x="5969.0" y="289.0" />
+      <point x="6492.943396226415" y="289.0" />
+      <point x="-5.056603773585266" y="14.5" />
+    </edge>
+    <edge source="org.apache.rocketmq.tools.command.consumer.UpdateSubGroupSubCommand" target="org.apache.rocketmq.tools.command.SubCommand">
+      <point x="0.0" y="-14.5" />
+      <point x="7702.0" y="259.0" />
+      <point x="6510.641509433963" y="259.0" />
+      <point x="12.64150943396271" y="14.5" />
+    </edge>
+    <edge source="org.apache.rocketmq.tools.admin.DefaultMQAdminExt" target="org.apache.rocketmq.tools.admin.MQAdminExt">
+      <point x="0.0" y="-14.5" />
+      <point x="303.0" y="447.0" />
+      <point x="232.75" y="447.0" />
+      <point x="32.0" y="14.5" />
+    </edge>
+    <edge source="org.apache.rocketmq.tools.command.acl.UpdateAccessConfigSubCommand" target="org.apache.rocketmq.tools.command.SubCommand">
+      <point x="0.0" y="-14.5" />
+      <point x="12050.0" y="89.0" />
+      <point x="6553.622641509434" y="89.0" />
+      <point x="55.62264150943429" y="14.5" />
+    </edge>
+    <edge source="org.apache.rocketmq.tools.command.consumer.ConsumerSubCommand" target="org.apache.rocketmq.tools.command.SubCommand">
+      <point x="0.0" y="-14.5" />
+      <point x="8449.5" y="229.0" />
+      <point x="6518.226415094339" y="229.0" />
+      <point x="20.226415094339245" y="14.5" />
+    </edge>
+    <edge source="org.apache.rocketmq.tools.command.namesrv.WipeWritePermSubCommand" target="org.apache.rocketmq.tools.command.SubCommand">
+      <point x="0.0" y="-14.5" />
+      <point x="3901.5" y="209.0" />
+      <point x="6472.7169811320755" y="209.0" />
+      <point x="-25.28301886792451" y="14.5" />
+    </edge>
+    <edge source="org.apache.rocketmq.tools.command.message.CheckMsgSendRTCommand" target="org.apache.rocketmq.tools.command.SubCommand">
+      <point x="0.0" y="-14.5" />
+      <point x="5195.5" y="259.0" />
+      <point x="6485.358490566038" y="259.0" />
+      <point x="-12.6415094339618" y="14.5" />
+    </edge>
+    <edge source="org.apache.rocketmq.tools.command.broker.BrokerConsumeStatsSubCommad" target="org.apache.rocketmq.tools.command.SubCommand">
+      <point x="0.0" y="-14.5" />
+      <point x="10773.5" y="139.0" />
+      <point x="6540.981132075472" y="139.0" />
+      <point x="42.98113207547158" y="14.5" />
+    </edge>
+    <edge source="org.apache.rocketmq.tools.command.message.QueryMsgByOffsetSubCommand" target="org.apache.rocketmq.tools.command.SubCommand">
+      <point x="0.0" y="-14.5" />
+      <point x="5694.0" y="279.0" />
+      <point x="6490.415094339623" y="279.0" />
+      <point x="-7.584905660377444" y="14.5" />
+    </edge>
+    <edge source="org.apache.rocketmq.tools.command.message.ConsumeMessageCommand" target="org.apache.rocketmq.tools.command.SubCommand">
+      <point x="0.0" y="-14.5" />
+      <point x="0.0" y="14.5" />
+    </edge>
+    <edge source="org.apache.rocketmq.tools.command.offset.ResetOffsetByTimeOldCommand" target="org.apache.rocketmq.tools.command.SubCommand">
+      <point x="0.0" y="-14.5" />
+      <point x="3417.5" y="189.0" />
+      <point x="6467.66037735849" y="189.0" />
+      <point x="-30.339622641509777" y="14.5" />
+    </edge>
+    <edge source="org.apache.rocketmq.tools.command.topic.TopicStatusSubCommand" target="org.apache.rocketmq.tools.command.SubCommand">
+      <point x="0.0" y="-14.5" />
+      <point x="1005.0" y="89.0" />
+      <point x="6442.377358490566" y="89.0" />
+      <point x="-55.62264150943429" y="14.5" />
+    </edge>
+    <edge source="org.apache.rocketmq.tools.command.cluster.CLusterSendMsgRTCommand" target="org.apache.rocketmq.tools.command.SubCommand">
+      <point x="0.0" y="-14.5" />
+      <point x="9809.5" y="179.0" />
+      <point x="6530.867924528302" y="179.0" />
+      <point x="32.867924528301955" y="14.5" />
+    </edge>
+    <edge source="org.apache.rocketmq.tools.command.consumer.ConsumerStatusSubCommand" target="org.apache.rocketmq.tools.command.SubCommand">
+      <point x="0.0" y="-14.5" />
+      <point x="8212.5" y="239.0" />
+      <point x="6515.698113207547" y="239.0" />
+      <point x="17.698113207547067" y="14.5" />
+    </edge>
+    <edge source="org.apache.rocketmq.tools.command.namesrv.DeleteKvConfigCommand" target="org.apache.rocketmq.tools.command.SubCommand">
+      <point x="0.0" y="-14.5" />
+      <point x="3664.5" y="199.0" />
+      <point x="6470.188679245283" y="199.0" />
+      <point x="-27.81132075471669" y="14.5" />
+    </edge>
+    <edge source="org.apache.rocketmq.tools.command.topic.DeleteTopicSubCommand" target="org.apache.rocketmq.tools.command.SubCommand">
+      <point x="0.0" y="-14.5" />
+      <point x="335.0" y="59.0" />
+      <point x="6434.792452830188" y="59.0" />
+      <point x="-63.20754716981173" y="14.5" />
+    </edge>
+    <edge source="org.apache.rocketmq.tools.command.offset.ResetOffsetByTimeCommand" target="org.apache.rocketmq.tools.command.SubCommand">
+      <point x="0.0" y="-14.5" />
+      <point x="2904.0" y="169.0" />
+      <point x="6462.603773584906" y="169.0" />
+      <point x="-35.396226415094134" y="14.5" />
+    </edge>
+    <edge source="org.apache.rocketmq.tools.command.offset.GetConsumerStatusCommand" target="org.apache.rocketmq.tools.command.SubCommand">
+      <point x="0.0" y="-14.5" />
+      <point x="3155.5" y="179.0" />
+      <point x="6465.132075471698" y="179.0" />
+      <point x="-32.867924528301955" y="14.5" />
+    </edge>
+    <edge source="org.apache.rocketmq.tools.command.connection.ProducerConnectionSubCommand" target="org.apache.rocketmq.tools.command.SubCommand">
+      <point x="0.0" y="-14.5" />
+      <point x="9255.5" y="199.0" />
+      <point x="6525.811320754717" y="199.0" />
+      <point x="27.81132075471669" y="14.5" />
+    </edge>
+    <edge source="org.apache.rocketmq.tools.command.topic.UpdateTopicPermSubCommand" target="org.apache.rocketmq.tools.command.SubCommand">
+      <point x="0.0" y="-14.5" />
+      <point x="1475.0" y="109.0" />
+      <point x="6447.433962264151" y="109.0" />
+      <point x="-50.56603773584902" y="14.5" />
+    </edge>
+    <edge source="org.apache.rocketmq.tools.command.connection.ConsumerConnectionSubCommand" target="org.apache.rocketmq.tools.command.SubCommand">
+      <point x="0.0" y="-14.5" />
+      <point x="9540.0" y="189.0" />
+      <point x="6528.33962264151" y="189.0" />
+      <point x="30.339622641509777" y="14.5" />
+    </edge>
+    <edge source="org.apache.rocketmq.tools.command.topic.TopicClusterSubCommand" target="org.apache.rocketmq.tools.command.SubCommand">
+      <point x="0.0" y="-14.5" />
+      <point x="106.0" y="49.0" />
+      <point x="6432.264150943396" y="49.0" />
+      <point x="-65.73584905660391" y="14.5" />
+    </edge>
+    <edge source="org.apache.rocketmq.tools.command.message.QueryMsgByKeySubCommand" target="org.apache.rocketmq.tools.command.SubCommand">
+      <point x="0.0" y="-14.5" />
+      <point x="6984.0" y="289.0" />
+      <point x="6503.056603773585" y="289.0" />
+      <point x="5.056603773585266" y="14.5" />
+    </edge>
+    <edge source="org.apache.rocketmq.tools.command.consumer.StartMonitoringSubCommand" target="org.apache.rocketmq.tools.command.SubCommand">
+      <point x="0.0" y="-14.5" />
+      <point x="7958.5" y="249.0" />
+      <point x="6513.169811320755" y="249.0" />
+      <point x="15.169811320754889" y="14.5" />
+    </edge>
+    <edge source="org.apache.rocketmq.tools.command.message.QueryMsgByUniqueKeySubCommand" target="org.apache.rocketmq.tools.command.SubCommand">
+      <point x="0.0" y="-14.5" />
+      <point x="4925.0" y="249.0" />
+      <point x="6482.830188679245" y="249.0" />
+      <point x="-15.169811320754889" y="14.5" />
+    </edge>
+    <edge source="org.apache.rocketmq.tools.command.consumer.DeleteSubscriptionGroupCommand" target="org.apache.rocketmq.tools.command.SubCommand">
+      <point x="0.0" y="-14.5" />
+      <point x="8972.5" y="209.0" />
+      <point x="6523.2830188679245" y="209.0" />
+      <point x="25.28301886792451" y="14.5" />
+    </edge>
+    <edge source="org.apache.rocketmq.tools.command.namesrv.UpdateNamesrvConfigCommand" target="org.apache.rocketmq.tools.command.SubCommand">
+      <point x="0.0" y="-14.5" />
+      <point x="4640.0" y="239.0" />
+      <point x="6480.301886792453" y="239.0" />
+      <point x="-17.698113207547067" y="14.5" />
+    </edge>
+    <edge source="org.apache.rocketmq.tools.command.broker.CleanExpiredCQSubCommand" target="org.apache.rocketmq.tools.command.SubCommand">
+      <point x="0.0" y="-14.5" />
+      <point x="11554.5" y="109.0" />
+      <point x="6548.566037735849" y="109.0" />
+      <point x="50.56603773584902" y="14.5" />
+    </edge>
+    <edge source="org.apache.rocketmq.tools.command.topic.AllocateMQSubCommand" target="org.apache.rocketmq.tools.command.SubCommand">
+      <point x="0.0" y="-14.5" />
+      <point x="1719.0" y="119.0" />
+      <point x="6449.962264150943" y="119.0" />
+      <point x="-48.037735849056844" y="14.5" />
+    </edge>
+    <edge source="org.apache.rocketmq.tools.command.broker.CleanUnusedTopicCommand" target="org.apache.rocketmq.tools.command.SubCommand">
+      <point x="0.0" y="-14.5" />
+      <point x="10278.0" y="159.0" />
+      <point x="6535.924528301886" y="159.0" />
+      <point x="37.92452830188631" y="14.5" />
+    </edge>
+    <edge source="org.apache.rocketmq.tools.command.cluster.ClusterListSubCommand" target="org.apache.rocketmq.tools.command.SubCommand">
+      <point x="0.0" y="-14.5" />
+      <point x="10045.0" y="169.0" />
+      <point x="6533.396226415094" y="169.0" />
+      <point x="35.396226415094134" y="14.5" />
+    </edge>
+    <edge source="org.apache.rocketmq.tools.command.topic.UpdateOrderConfCommand" target="org.apache.rocketmq.tools.command.SubCommand">
+      <point x="0.0" y="-14.5" />
+      <point x="1951.0" y="129.0" />
+      <point x="6452.490566037736" y="129.0" />
+      <point x="-45.509433962263756" y="14.5" />
+    </edge>
+    <edge source="org.apache.rocketmq.tools.command.topic.UpdateTopicSubCommand" target="org.apache.rocketmq.tools.command.SubCommand">
+      <point x="0.0" y="-14.5" />
+      <point x="774.5" y="79.0" />
+      <point x="6439.8490566037735" y="79.0" />
+      <point x="-58.15094339622647" y="14.5" />
+    </edge>
+    <edge source="org.apache.rocketmq.tools.command.namesrv.UpdateKvConfigCommand" target="org.apache.rocketmq.tools.command.SubCommand">
+      <point x="0.0" y="-14.5" />
+      <point x="4389.0" y="229.0" />
+      <point x="6477.773584905661" y="229.0" />
+      <point x="-20.226415094339245" y="14.5" />
+    </edge>
+    <edge source="org.apache.rocketmq.tools.command.acl.ClusterAclConfigVersionListSubCommand" target="org.apache.rocketmq.tools.command.SubCommand">
+      <point x="0.0" y="-14.5" />
+      <point x="13197.5" y="49.0" />
+      <point x="6563.735849056604" y="49.0" />
+      <point x="65.73584905660391" y="14.5" />
+    </edge>
+    <edge source="org.apache.rocketmq.tools.command.acl.DeleteAccessConfigSubCommand" target="org.apache.rocketmq.tools.command.SubCommand">
+      <point x="0.0" y="-14.5" />
+      <point x="12895.5" y="59.0" />
+      <point x="6561.207547169811" y="59.0" />
+      <point x="63.20754716981082" y="14.5" />
+    </edge>
+    <edge source="org.apache.rocketmq.tools.command.acl.GetAccessConfigSubCommand" target="org.apache.rocketmq.tools.command.SubCommand">
+      <point x="0.0" y="-14.5" />
+      <point x="12626.5" y="69.0" />
+      <point x="6558.679245283019" y="69.0" />
+      <point x="60.679245283018645" y="14.5" />
+    </edge>
+    <edge source="org.apache.rocketmq.tools.command.topic.TopicListSubCommand" target="org.apache.rocketmq.tools.command.SubCommand">
+      <point x="0.0" y="-14.5" />
+      <point x="553.0" y="69.0" />
+      <point x="6437.320754716981" y="69.0" />
+      <point x="-60.679245283018645" y="14.5" />
+    </edge>
+    <edge source="org.apache.rocketmq.tools.command.message.PrintMessageByQueueCommand" target="org.apache.rocketmq.tools.command.SubCommand">
+      <point x="0.0" y="-14.5" />
+      <point x="6242.5" y="299.0" />
+      <point x="6495.471698113208" y="299.0" />
+      <point x="-2.5283018867921783" y="14.5" />
+    </edge>
+    <edge source="org.apache.rocketmq.tools.command.broker.UpdateBrokerConfigSubCommand" target="org.apache.rocketmq.tools.command.SubCommand">
+      <point x="0.0" y="-14.5" />
+      <point x="11287.5" y="119.0" />
+      <point x="6546.037735849057" y="119.0" />
+      <point x="48.037735849056844" y="14.5" />
+    </edge>
+    <edge source="org.apache.rocketmq.tools.command.stats.StatsAllSubCommand" target="org.apache.rocketmq.tools.command.SubCommand">
+      <point x="0.0" y="-14.5" />
+      <point x="2171.5" y="139.0" />
+      <point x="6455.018867924528" y="139.0" />
+      <point x="-42.98113207547158" y="14.5" />
+    </edge>
+    <edge source="org.apache.rocketmq.tools.command.message.SendMessageCommand" target="org.apache.rocketmq.tools.command.SubCommand">
+      <point x="0.0" y="-14.5" />
+      <point x="7219.5" y="279.0" />
+      <point x="6505.584905660377" y="279.0" />
+      <point x="7.584905660377444" y="14.5" />
+    </edge>
+    <edge source="org.apache.rocketmq.tools.command.broker.GetBrokerConfigCommand" target="org.apache.rocketmq.tools.command.SubCommand">
+      <point x="0.0" y="-14.5" />
+      <point x="10518.0" y="149.0" />
+      <point x="6538.452830188679" y="149.0" />
+      <point x="40.4528301886794" y="14.5" />
+    </edge>
+    <edge source="org.apache.rocketmq.tools.command.message.DecodeMessageIdCommond" target="org.apache.rocketmq.tools.command.SubCommand">
+      <point x="0.0" y="-14.5" />
+      <point x="5437.0" y="269.0" />
+      <point x="6487.88679245283" y="269.0" />
+      <point x="-10.113207547169623" y="14.5" />
+    </edge>
+    <edge source="org.apache.rocketmq.tools.command.offset.CloneGroupOffsetCommand" target="org.apache.rocketmq.tools.command.SubCommand">
+      <point x="0.0" y="-14.5" />
+      <point x="2658.5" y="159.0" />
+      <point x="6460.075471698113" y="159.0" />
+      <point x="-37.92452830188722" y="14.5" />
+    </edge>
+    <edge source="org.apache.rocketmq.tools.command.namesrv.GetNamesrvConfigCommand" target="org.apache.rocketmq.tools.command.SubCommand">
+      <point x="0.0" y="-14.5" />
+      <point x="4149.5" y="219.0" />
+      <point x="6475.245283018868" y="219.0" />
+      <point x="-22.754716981132333" y="14.5" />
+    </edge>
+    <edge source="org.apache.rocketmq.tools.monitor.DefaultMonitorListener" target="org.apache.rocketmq.tools.monitor.MonitorListener">
+      <point x="0.0" y="-14.5" />
+      <point x="0.0" y="14.5" />
+    </edge>
+    <edge source="org.apache.rocketmq.tools.command.acl.UpdateGlobalWhiteAddrSubCommand" target="org.apache.rocketmq.tools.command.SubCommand">
+      <point x="0.0" y="-14.5" />
+      <point x="12344.0" y="79.0" />
+      <point x="6556.1509433962265" y="79.0" />
+      <point x="58.15094339622647" y="14.5" />
+    </edge>
+    <edge source="org.apache.rocketmq.tools.command.consumer.ConsumerProgressSubCommand" target="org.apache.rocketmq.tools.command.SubCommand">
+      <point x="0.0" y="-14.5" />
+      <point x="8694.0" y="219.0" />
+      <point x="6520.754716981132" y="219.0" />
+      <point x="22.754716981132333" y="14.5" />
+    </edge>
+    <edge source="org.apache.rocketmq.tools.command.broker.BrokerStatusSubCommand" target="org.apache.rocketmq.tools.command.SubCommand">
+      <point x="0.0" y="-14.5" />
+      <point x="11029.5" y="129.0" />
+      <point x="6543.509433962264" y="129.0" />
+      <point x="45.509433962263756" y="14.5" />
+    </edge>
+    <edge source="org.apache.rocketmq.tools.command.queue.QueryConsumeQueueCommand" target="org.apache.rocketmq.tools.command.SubCommand">
+      <point x="0.0" y="-14.5" />
+      <point x="2404.5" y="149.0" />
+      <point x="6457.547169811321" y="149.0" />
+      <point x="-40.4528301886794" y="14.5" />
+    </edge>
+    <edge source="org.apache.rocketmq.tools.command.broker.SendMsgStatusCommand" target="org.apache.rocketmq.tools.command.SubCommand">
+      <point x="0.0" y="-14.5" />
+      <point x="11794.5" y="99.0" />
+      <point x="6551.094339622641" y="99.0" />
+      <point x="53.0943396226412" y="14.5" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic Group" zoom="1.0" x="136.0" y="93.5" />
+  <SelectedNodes />
+  <Categories />
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>private</VISIBILITY>
+</Diagram>
+
