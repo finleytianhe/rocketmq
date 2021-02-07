@@ -55,6 +55,8 @@ import org.apache.rocketmq.remoting.exception.RemotingException;
  * <p> <strong>Thread Safety:</strong> After configuring and starting process, this class can be regarded as thread-safe
  * and used among multiple threads context. </p>
  */
+//该类是打算发送消息的应用程序的入口点。对公开getter/setter方法的字段进行调优是可以的，但请记住，对于大多数场景，它们都应该是开箱即用的。该类聚合各种发送方法来将消息传递给代理。每一种都有优点和缺点;在实际编写代码之前，您最好了解它们的优缺点。
+//线程安全:配置并启动进程后，该类可视为线程安全的，用于多个线程上下文。
 public class DefaultMQProducer extends ClientConfig implements MQProducer {
 
     /**
@@ -70,6 +72,7 @@ public class DefaultMQProducer extends ClientConfig implements MQProducer {
      *
      * See {@linktourl http://rocketmq.apache.org/docs/core-concept/} for more discussion.
      */
+//    生产者组在概念上聚合了角色完全相同的所有生产者实例，这在涉及事务消息时特别重要。对于非事务性消息，只要每个进程都是唯一的就没关系。
     private String producerGroup;
 
     /**
@@ -90,6 +93,7 @@ public class DefaultMQProducer extends ClientConfig implements MQProducer {
     /**
      * Compress message body threshold, namely, message body larger than 4k will be compressed on default.
      */
+//    压缩消息体阈值，缺省情况下，大于4k的消息体将被压缩。
     private int compressMsgBodyOverHowmuch = 1024 * 4;
 
     /**
@@ -97,6 +101,7 @@ public class DefaultMQProducer extends ClientConfig implements MQProducer {
      *
      * This may potentially cause message duplication which is up to application developers to resolve.
      */
+//    在同步模式下声明发送失败之前，内部重试执行的最大次数。这可能会导致消息复制，这取决于应用程序开发人员来解决。
     private int retryTimesWhenSendFailed = 2;
 
     /**
@@ -104,11 +109,13 @@ public class DefaultMQProducer extends ClientConfig implements MQProducer {
      *
      * This may potentially cause message duplication which is up to application developers to resolve.
      */
+//    在异步模式中声明发送失败之前，内部重试执行的最大次数。这可能会导致消息复制，这取决于应用程序开发人员来解决。
     private int retryTimesWhenSendAsyncFailed = 2;
 
     /**
      * Indicate whether to retry another broker on sending failure internally.
      */
+//    指示是否在内部发送失败时重试另一个代理。
     private boolean retryAnotherBrokerWhenNotStoreOK = false;
 
     /**
@@ -162,6 +169,7 @@ public class DefaultMQProducer extends ClientConfig implements MQProducer {
         //if client open the message trace feature
         if (enableMsgTrace) {
             try {
+//                消息跟踪trace基于钩子实现
                 AsyncTraceDispatcher dispatcher = new AsyncTraceDispatcher(producerGroup, TraceDispatcher.Type.PRODUCE, customizedTraceTopic, rpcHook);
                 dispatcher.setHostProducer(this.defaultMQProducerImpl);
                 traceDispatcher = dispatcher;
@@ -317,6 +325,7 @@ public class DefaultMQProducer extends ClientConfig implements MQProducer {
      * @throws MQBrokerException if there is any error with broker.
      * @throws InterruptedException if the sending thread is interrupted.
      */
+//    以同步模式发送消息。此方法仅在发送过程完全完成时返回。Warn:该方法具有内部重试机制，即内部实现将在声明失败之前重试retryTimesWhenSendFailed次数。因此，可能会有多个消息被传递给代理。解决潜在的复制问题取决于应用程序开发人员。
     @Override
     public SendResult send(
         Message msg) throws MQClientException, RemotingException, MQBrokerException, InterruptedException {

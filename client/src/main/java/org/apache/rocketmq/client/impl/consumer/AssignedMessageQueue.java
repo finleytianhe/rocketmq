@@ -101,6 +101,7 @@ public class AssignedMessageQueue {
     public void updateConsumeOffset(MessageQueue messageQueue, long offset) {
         MessageQueueState messageQueueState = assignedMessageQueueState.get(messageQueue);
         if (messageQueueState != null) {
+//            更新consumer offset
             messageQueueState.setConsumeOffset(offset);
         }
     }
@@ -181,6 +182,7 @@ public class AssignedMessageQueue {
         return this.assignedMessageQueueState.keySet();
     }
 
+//
     private class MessageQueueState {
         private MessageQueue messageQueue;
         private ProcessQueue processQueue;

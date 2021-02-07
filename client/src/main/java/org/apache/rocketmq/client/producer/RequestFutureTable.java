@@ -37,11 +37,13 @@ public class RequestFutureTable {
 
     public static void scanExpiredRequest() {
         final List<RequestResponseFuture> rfList = new LinkedList<RequestResponseFuture>();
+//        请求缓存信息
         Iterator<Map.Entry<String, RequestResponseFuture>> it = requestFutureTable.entrySet().iterator();
         while (it.hasNext()) {
             Map.Entry<String, RequestResponseFuture> next = it.next();
             RequestResponseFuture rep = next.getValue();
 
+//            过期请求删除
             if (rep.isTimeout()) {
                 it.remove();
                 rfList.add(rep);
@@ -49,6 +51,7 @@ public class RequestFutureTable {
             }
         }
 
+//        执行请求回调函数
         for (RequestResponseFuture rf : rfList) {
             try {
                 Throwable cause = new RequestTimeoutException(ClientErrorCode.REQUEST_TIMEOUT_EXCEPTION, "request timeout, no reply message.");

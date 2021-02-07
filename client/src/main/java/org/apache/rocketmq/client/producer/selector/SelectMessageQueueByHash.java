@@ -21,6 +21,7 @@ import org.apache.rocketmq.client.producer.MessageQueueSelector;
 import org.apache.rocketmq.common.message.Message;
 import org.apache.rocketmq.common.message.MessageQueue;
 
+//hash查询消息队列
 public class SelectMessageQueueByHash implements MessageQueueSelector {
 
     @Override

@@ -34,6 +34,7 @@ import org.apache.rocketmq.logging.InternalLogger;
  * should only be allocated to those. Otherwise, those message queues can be shared along all consumers since there are
  * no alive consumer to monopolize them.
  */
+//基于机房近端优先级的分配策略代理。可以指定实际的分配策略。如果机房中有任何使用者是活动的，那么部署在同一台机器上的代理的消息队列应该只分配给这些使用者。否则，这些消息队列可以与所有消费者共享，因为没有活着的消费者来垄断它们。
 public class AllocateMachineRoomNearby implements AllocateMessageQueueStrategy {
     private final InternalLogger log = ClientLogger.getLog();
 
@@ -106,7 +107,7 @@ public class AllocateMachineRoomNearby implements AllocateMessageQueueStrategy {
 
         List<MessageQueue> allocateResults = new ArrayList<MessageQueue>();
 
-        //1.allocate the mq that deploy in the same machine room with the current consumer
+        //1.allocate the mq that deploy in the same machine room with the current consumer 分配与当前使用者在同一机房中部署的mq 降低网络延迟
         String currentMachineRoom = machineRoomResolver.consumerDeployIn(currentCID);
         List<MessageQueue> mqInThisMachineRoom = mr2Mq.remove(currentMachineRoom);
         List<String> consumerInThisMachineRoom = mr2c.get(currentMachineRoom);
@@ -114,7 +115,7 @@ public class AllocateMachineRoomNearby implements AllocateMessageQueueStrategy {
             allocateResults.addAll(allocateMessageQueueStrategy.allocate(consumerGroup, currentCID, mqInThisMachineRoom, consumerInThisMachineRoom));
         }
 
-        //2.allocate the rest mq to each machine room if there are no consumer alive in that machine room
+        //2.allocate the rest mq to each machine room if there are no consumer alive in that machine room 如果每个机房中没有活跃的消费者，则将剩余mq分配给该机房
         for (String machineRoom : mr2Mq.keySet()) {
             if (!mr2c.containsKey(machineRoom)) { // no alive consumer in the corresponding machine room, so all consumers share these queues
                 allocateResults.addAll(allocateMessageQueueStrategy.allocate(consumerGroup, currentCID, mr2Mq.get(machineRoom), cidAll));

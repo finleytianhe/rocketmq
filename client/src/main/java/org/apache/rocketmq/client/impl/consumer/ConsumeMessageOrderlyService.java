@@ -395,6 +395,7 @@ public class ConsumeMessageOrderlyService implements ConsumeMessageService {
         }
     }
 
+//
     class ConsumeRequest implements Runnable {
         private final ProcessQueue processQueue;
         private final MessageQueue messageQueue;

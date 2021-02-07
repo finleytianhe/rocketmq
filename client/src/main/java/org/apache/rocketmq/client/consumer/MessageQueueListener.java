@@ -22,6 +22,7 @@ import org.apache.rocketmq.common.message.MessageQueue;
 /**
  * A MessageQueueListener is implemented by the application and may be specified when a message queue changed
  */
+//
 public interface MessageQueueListener {
     /**
      * @param topic message topic

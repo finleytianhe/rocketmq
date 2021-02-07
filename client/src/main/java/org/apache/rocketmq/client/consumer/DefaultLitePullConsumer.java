@@ -44,27 +44,32 @@ public class DefaultLitePullConsumer extends ClientConfig implements LitePullCon
      * data consumption model aligns with the traditional publish-subscribe model. The messages are broadcast to all
      * consumer groups.
      */
+//    消费组,队列场景，消费组中的一个消费者可以消费到队列中的消息，发布订阅模型，广播这种机制，消费组中的每个消费者都可以消费到这个消息
     private String consumerGroup;
 
     /**
      * Long polling mode, the Consumer connection max suspend time, it is not recommended to modify
      */
+//    长连接，最大挂起时间20s
     private long brokerSuspendMaxTimeMillis = 1000 * 20;
 
     /**
      * Long polling mode, the Consumer connection timeout(must greater than brokerSuspendMaxTimeMillis), it is not
      * recommended to modify
      */
+//    长连接，消费者超时时间 30s
     private long consumerTimeoutMillisWhenSuspend = 1000 * 30;
 
     /**
      * The socket timeout in milliseconds
      */
+//    消费者拉取超时时间10s
     private long consumerPullTimeoutMillis = 1000 * 10;
 
     /**
      * Consumption pattern,default is clustering
      */
+//    消费模式默认是集群消费
     private MessageModel messageModel = MessageModel.CLUSTERING;
     /**
      * Message queue listener
@@ -92,27 +97,32 @@ public class DefaultLitePullConsumer extends ClientConfig implements LitePullCon
     /**
      * Pull thread number
      */
+//    拉取线程数
     private int pullThreadNums = 20;
 
     /**
      * Minimum commit offset interval time in milliseconds.
      */
+//    最小自动提交频次1s
     private static final long MIN_AUTOCOMMIT_INTERVAL_MILLIS = 1000;
 
     /**
      * Maximum commit offset interval time in milliseconds.
      */
+//    最大自动提交频次5s
     private long autoCommitIntervalMillis = 5 * 1000;
 
     /**
      * Maximum number of messages pulled each time.
      */
+//    拉取批量大小10
     private int pullBatchSize = 10;
 
     /**
      * Flow control threshold for consume request, each consumer will cache at most 10000 consume requests by default.
      * Consider the {@code pullBatchSize}, the instantaneous value may exceed the limit
      */
+//    对于消费请求的流控制阈值，每个消费者在默认情况下最多缓存10000个消费请求
     private long pullThresholdForAll = 10000;
 
     /**
@@ -124,6 +134,7 @@ public class DefaultLitePullConsumer extends ClientConfig implements LitePullCon
      * Flow control threshold on queue level, each message queue will cache at most 1000 messages by default, Consider
      * the {@code pullBatchSize}, the instantaneous value may exceed the limit
      */
+//    流量控制阈值在队列级别上，每个消息队列默认将缓存最多1000条消息
     private int pullThresholdForQueue = 1000;
 
     /**
@@ -133,18 +144,22 @@ public class DefaultLitePullConsumer extends ClientConfig implements LitePullCon
      * <p>
      * The size of a message only measured by message body, so it's not accurate
      */
+//    在队列级别上限制缓存的消息大小，缺省情况下每个消息队列最多缓存100条MiB消息
     private int pullThresholdSizeForQueue = 100;
 
     /**
      * The poll timeout in milliseconds
      */
+//    轮询超时时间(毫秒)
     private long pollTimeoutMillis = 1000 * 5;
 
     /**
      * Interval time in in milliseconds for checking changes in topic metadata.
      */
+//    检查主题元数据更改的间隔时间(以毫秒为单位)。
     private long topicMetadataCheckIntervalMillis = 30 * 1000;
 
+//    默认从最后的offset消费
     private ConsumeFromWhere consumeFromWhere = ConsumeFromWhere.CONSUME_FROM_LAST_OFFSET;
 
     /**
@@ -203,6 +218,7 @@ public class DefaultLitePullConsumer extends ClientConfig implements LitePullCon
     @Override
     public void start() throws MQClientException {
         setConsumerGroup(NamespaceUtil.wrapNamespace(this.getNamespace(), this.consumerGroup));
+//        pullConsumer start
         this.defaultLitePullConsumerImpl.start();
     }
 

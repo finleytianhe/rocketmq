@@ -26,6 +26,7 @@ import org.apache.rocketmq.remoting.exception.RemotingException;
 /**
  * Offset store interface
  */
+//
 public interface OffsetStore {
     /**
      * Load
