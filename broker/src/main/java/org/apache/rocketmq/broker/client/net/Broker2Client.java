@@ -182,6 +182,7 @@ public class Broker2Client {
                 int version = entry.getValue().getVersion();
                 if (version >= MQVersion.Version.V3_0_7_SNAPSHOT.ordinal()) {
                     try {
+//                        重置consumer offset
                         this.brokerController.getRemotingServer().invokeOneway(entry.getKey(), request, 5000);
                         log.info("[reset-offset] reset offset success. topic={}, group={}, clientId={}",
                             topic, group, entry.getValue().getClientId());

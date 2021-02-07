@@ -58,6 +58,7 @@ import org.apache.rocketmq.remoting.netty.AsyncNettyRequestProcessor;
 import org.apache.rocketmq.remoting.netty.NettyRequestProcessor;
 import org.apache.rocketmq.remoting.protocol.RemotingCommand;
 
+//默认请求处理器
 public class DefaultRequestProcessor extends AsyncNettyRequestProcessor implements NettyRequestProcessor {
     private static InternalLogger log = InternalLoggerFactory.getLogger(LoggerName.NAMESRV_LOGGER_NAME);
 
@@ -80,14 +81,19 @@ public class DefaultRequestProcessor extends AsyncNettyRequestProcessor implemen
 
 
         switch (request.getCode()) {
+//            保存配置
             case RequestCode.PUT_KV_CONFIG:
                 return this.putKVConfig(ctx, request);
+//                查询配置
             case RequestCode.GET_KV_CONFIG:
                 return this.getKVConfig(ctx, request);
+//                删除配置
             case RequestCode.DELETE_KV_CONFIG:
                 return this.deleteKVConfig(ctx, request);
+//                查询数据版本
             case RequestCode.QUERY_DATA_VERSION:
                 return queryBrokerTopicConfig(ctx, request);
+//                注册broker
             case RequestCode.REGISTER_BROKER:
                 Version brokerVersion = MQVersion.value2Version(request.getVersion());
                 if (brokerVersion.ordinal() >= MQVersion.Version.V3_0_11.ordinal()) {
@@ -217,6 +223,7 @@ public class DefaultRequestProcessor extends AsyncNettyRequestProcessor implemen
             registerBrokerBody.getTopicConfigSerializeWrapper().getDataVersion().setTimestamp(0);
         }
 
+//        注册broker
         RegisterBrokerResult result = this.namesrvController.getRouteInfoManager().registerBroker(
             requestHeader.getClusterName(),
             requestHeader.getBrokerAddr(),
@@ -240,6 +247,7 @@ public class DefaultRequestProcessor extends AsyncNettyRequestProcessor implemen
 
     private boolean checksum(ChannelHandlerContext ctx, RemotingCommand request,
         RegisterBrokerRequestHeader requestHeader) {
+//        crc32 32字节的校验码，用来校验数据的完整性
         if (requestHeader.getBodyCrc32() != 0) {
             final int crc32 = UtilAll.crc32(request.getBody());
             if (crc32 != requestHeader.getBodyCrc32()) {
@@ -308,6 +316,7 @@ public class DefaultRequestProcessor extends AsyncNettyRequestProcessor implemen
             ctx.channel()
         );
 
+//        broker ha地址 master地址
         responseHeader.setHaServerAddr(result.getHaServerAddr());
         responseHeader.setMasterAddr(result.getMasterAddr());
 
@@ -324,6 +333,7 @@ public class DefaultRequestProcessor extends AsyncNettyRequestProcessor implemen
         final UnRegisterBrokerRequestHeader requestHeader =
             (UnRegisterBrokerRequestHeader) request.decodeCommandCustomHeader(UnRegisterBrokerRequestHeader.class);
 
+//        取消broker注册
         this.namesrvController.getRouteInfoManager().unregisterBroker(
             requestHeader.getClusterName(),
             requestHeader.getBrokerAddr(),
@@ -351,6 +361,7 @@ public class DefaultRequestProcessor extends AsyncNettyRequestProcessor implemen
                 topicRouteData.setOrderTopicConf(orderTopicConf);
             }
 
+//            json编码
             byte[] content = topicRouteData.encode();
             response.setBody(content);
             response.setCode(ResponseCode.SUCCESS);

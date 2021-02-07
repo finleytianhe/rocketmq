@@ -35,7 +35,9 @@ import org.apache.rocketmq.remoting.common.RemotingUtil;
 
 public class ConsumerManager {
     private static final InternalLogger log = InternalLoggerFactory.getLogger(LoggerName.BROKER_LOGGER_NAME);
+//    channel超时时间120s
     private static final long CHANNEL_EXPIRED_TIMEOUT = 1000 * 120;
+//    消费组信息
     private final ConcurrentMap<String/* Group */, ConsumerGroupInfo> consumerTable =
         new ConcurrentHashMap<String, ConsumerGroupInfo>(1024);
     private final ConsumerIdsChangeListener consumerIdsChangeListener;
@@ -99,6 +101,7 @@ public class ConsumerManager {
         ConsumeType consumeType, MessageModel messageModel, ConsumeFromWhere consumeFromWhere,
         final Set<SubscriptionData> subList, boolean isNotifyConsumerIdsChangedEnable) {
 
+//        注册消费者
         ConsumerGroupInfo consumerGroupInfo = this.consumerTable.get(group);
         if (null == consumerGroupInfo) {
             ConsumerGroupInfo tmp = new ConsumerGroupInfo(group, consumeType, messageModel, consumeFromWhere);
@@ -128,6 +131,7 @@ public class ConsumerManager {
         if (null != consumerGroupInfo) {
             consumerGroupInfo.unregisterChannel(clientChannelInfo);
             if (consumerGroupInfo.getChannelInfoTable().isEmpty()) {
+//                取消消费者注册
                 ConsumerGroupInfo remove = this.consumerTable.remove(group);
                 if (remove != null) {
                     log.info("unregister consumer ok, no any connection, and remove consumer group, {}", group);
@@ -160,6 +164,7 @@ public class ConsumerManager {
                         "SCAN: remove expired channel from ConsumerManager consumerTable. channel={}, consumerGroup={}",
                         RemotingHelper.parseChannelRemoteAddr(clientChannelInfo.getChannel()), group);
                     RemotingUtil.closeChannel(clientChannelInfo.getChannel());
+//                    cahnnel超时删除
                     itChannel.remove();
                 }
             }

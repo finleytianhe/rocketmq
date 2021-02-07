@@ -292,6 +292,7 @@ public class PlainPermissionManager {
         return aclConfig;
     }
 
+//    监听文件变化
     private void watch() {
         try {
             String watchFilePath = fileHome + fileName;

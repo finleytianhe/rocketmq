@@ -29,6 +29,7 @@ public abstract class InternalLoggerFactory {
 
     private static String loggerType = null;
 
+//    本地缓存
     private static ConcurrentHashMap<String, InternalLoggerFactory> loggerFactoryCache = new ConcurrentHashMap<String, InternalLoggerFactory>();
 
     public static InternalLogger getLogger(Class clazz) {

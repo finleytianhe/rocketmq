@@ -102,9 +102,11 @@ public class NettyRemotingServer extends NettyRemotingAbstract implements Remoti
 
         int publicThreadNums = nettyServerConfig.getServerCallbackExecutorThreads();
         if (publicThreadNums <= 0) {
+//            默认4
             publicThreadNums = 4;
         }
 
+//        共用线程池，固定线程池 默认线程数4
         this.publicExecutor = Executors.newFixedThreadPool(publicThreadNums, new ThreadFactory() {
             private AtomicInteger threadIndex = new AtomicInteger(0);
 
@@ -115,6 +117,7 @@ public class NettyRemotingServer extends NettyRemotingAbstract implements Remoti
         });
 
         if (useEpoll()) {
+//            netty reactor线程模型调度线程池线程数1
             this.eventLoopGroupBoss = new EpollEventLoopGroup(1, new ThreadFactory() {
                 private AtomicInteger threadIndex = new AtomicInteger(0);
 
@@ -154,6 +157,7 @@ public class NettyRemotingServer extends NettyRemotingAbstract implements Remoti
             });
         }
 
+//        加载ssl上下文
         loadSslContext();
     }
 
@@ -181,6 +185,7 @@ public class NettyRemotingServer extends NettyRemotingAbstract implements Remoti
 
     @Override
     public void start() {
+//        创建默认事件执行组
         this.defaultEventExecutorGroup = new DefaultEventExecutorGroup(
             nettyServerConfig.getServerWorkerThreads(),
             new ThreadFactory() {
@@ -193,17 +198,32 @@ public class NettyRemotingServer extends NettyRemotingAbstract implements Remoti
                 }
             });
 
+//        预处理共享的handler
         prepareSharableHandlers();
 
         ServerBootstrap childHandler =
             this.serverBootstrap.group(this.eventLoopGroupBoss, this.eventLoopGroupSelector)
                 .channel(useEpoll() ? EpollServerSocketChannel.class : NioServerSocketChannel.class)
+//                    tcp内核维护2个队列，客户端向server连接的时候发送SYN标志的包，服务端收到客户端发来的SYN时向客户端发送SYN ACK确认二次握手
+//                    tcp内核模块把客户端加入到一个队列中，服务端收到客户端发来的ack时 第三次握手，tcp模块把客户端从这个队列移动到下个队列中，连接完成
+//                    两个队列之和是backlog，两个队列之和大于backlog时连接被拒绝
                 .option(ChannelOption.SO_BACKLOG, 1024)
+//                    是否可以重复使用本地地址和端口，比如服务器占用了TCP的80端口进行监听，此时在监听就会返回错误，该参数允许共用改端口
+//                    比如某个进程非正常退出，改程序占用的端口可能要被占用一段时间才能允许其他进程使用，而且程序死掉以后内核需要一定的时间才可以
+//                    释放改端口，不设置改参数就无法使用改端口
                 .option(ChannelOption.SO_REUSEADDR, true)
+//                    保持连接活跃，改参数设置后连接会测试连接的状态，过一段时间没有通讯会发送活动探测报文
                 .option(ChannelOption.SO_KEEPALIVE, false)
+//                    改参数与Nagle算法有关，将更小的数据包组装成更大的帧进行发送，而不是输入一次发送一次，因此数据包不足的时候回等待其他数据包
+//                    到来组装成更大的数据包进行发送，提高了网络的有效负载，但是造成了延迟，kafka producer发送设计采用了这种思想
+//                    该参数的作用就是禁止使用Nagle算法，使用小数据传输，和TCP_NODELAY对应的是TCP_CORK，等到发送的数据量最大的时候
+//                    一次性发送数据，适用于文件传输
                 .childOption(ChannelOption.TCP_NODELAY, true)
+//                    发送缓冲区大小，默认65535，保存发送数据直到发送成功
                 .childOption(ChannelOption.SO_SNDBUF, nettyServerConfig.getServerSocketSndBufSize())
+//                    接收缓冲区大小，默认65535，保存收到的数据直到程序读取成功
                 .childOption(ChannelOption.SO_RCVBUF, nettyServerConfig.getServerSocketRcvBufSize())
+//                    端口默认8888
                 .localAddress(new InetSocketAddress(this.nettyServerConfig.getListenPort()))
                 .childHandler(new ChannelInitializer<SocketChannel>() {
                     @Override
@@ -220,6 +240,7 @@ public class NettyRemotingServer extends NettyRemotingAbstract implements Remoti
                     }
                 });
 
+//        是否使用内存池
         if (nettyServerConfig.isServerPooledByteBufAllocatorEnable()) {
             childHandler.childOption(ChannelOption.ALLOCATOR, PooledByteBufAllocator.DEFAULT);
         }
@@ -236,6 +257,7 @@ public class NettyRemotingServer extends NettyRemotingAbstract implements Remoti
             this.nettyEventExecutor.start();
         }
 
+//        定时1s查看响应信息
         this.timer.scheduleAtFixedRate(new TimerTask() {
 
             @Override
@@ -256,6 +278,7 @@ public class NettyRemotingServer extends NettyRemotingAbstract implements Remoti
                 this.timer.cancel();
             }
 
+//             优雅关闭事件循环组
             this.eventLoopGroupBoss.shutdownGracefully();
 
             this.eventLoopGroupSelector.shutdownGracefully();
@@ -273,6 +296,7 @@ public class NettyRemotingServer extends NettyRemotingAbstract implements Remoti
 
         if (this.publicExecutor != null) {
             try {
+//                关闭执行器
                 this.publicExecutor.shutdown();
             } catch (Exception e) {
                 log.error("NettyRemotingServer shutdown exception, ", e);
@@ -344,8 +368,11 @@ public class NettyRemotingServer extends NettyRemotingAbstract implements Remoti
 
     private void prepareSharableHandlers() {
         handshakeHandler = new HandshakeHandler(TlsSystemConfig.tlsMode);
+//        初始化netty编码组件
         encoder = new NettyEncoder();
+//        初始化netty连接管理handler
         connectionManageHandler = new NettyConnectManageHandler();
+//        初始化nettyServerHandler
         serverHandler = new NettyServerHandler();
     }
 

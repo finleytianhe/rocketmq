@@ -91,15 +91,19 @@ public class MQClientInstance {
     private final int instanceIndex;
     private final String clientId;
     private final long bootTimestamp = System.currentTimeMillis();
+//    生产者
     private final ConcurrentMap<String/* group */, MQProducerInner> producerTable = new ConcurrentHashMap<String, MQProducerInner>();
+//   消费组
     private final ConcurrentMap<String/* group */, MQConsumerInner> consumerTable = new ConcurrentHashMap<String, MQConsumerInner>();
     private final ConcurrentMap<String/* group */, MQAdminExtInner> adminExtTable = new ConcurrentHashMap<String, MQAdminExtInner>();
     private final NettyClientConfig nettyClientConfig;
     private final MQClientAPIImpl mQClientAPIImpl;
     private final MQAdminImpl mQAdminImpl;
+//    topic路由信息
     private final ConcurrentMap<String/* Topic */, TopicRouteData> topicRouteTable = new ConcurrentHashMap<String, TopicRouteData>();
     private final Lock lockNamesrv = new ReentrantLock();
     private final Lock lockHeartbeat = new ReentrantLock();
+//    broker
     private final ConcurrentMap<String/* Broker Name */, HashMap<Long/* brokerId */, String/* address */>> brokerAddrTable =
         new ConcurrentHashMap<String, HashMap<Long, String>>();
     private final ConcurrentMap<String/* Broker Name */, HashMap<String/* address */, Integer>> brokerVersionTable =
@@ -264,6 +268,7 @@ public class MQClientInstance {
                         log.error("ScheduledTask fetchNameServerAddr exception", e);
                     }
                 }
+//                120s一次检查namesrv
             }, 1000 * 10, 1000 * 60 * 2, TimeUnit.MILLISECONDS);
         }
 
@@ -284,12 +289,15 @@ public class MQClientInstance {
             @Override
             public void run() {
                 try {
+//                    清楚下线的broker
                     MQClientInstance.this.cleanOfflineBroker();
+//                    向所有broker发送心跳监测
                     MQClientInstance.this.sendHeartbeatToAllBrokerWithLock();
                 } catch (Exception e) {
                     log.error("ScheduledTask sendHeartbeatToAllBroker exception", e);
                 }
             }
+//            30s一次
         }, 1000, this.clientConfig.getHeartbeatBrokerInterval(), TimeUnit.MILLISECONDS);
 
         this.scheduledExecutorService.scheduleAtFixedRate(new Runnable() {
@@ -302,6 +310,7 @@ public class MQClientInstance {
                     log.error("ScheduledTask persistAllConsumerOffset exception", e);
                 }
             }
+//            5s一次持久化consumer offset
         }, 1000 * 10, this.clientConfig.getPersistConsumerOffsetInterval(), TimeUnit.MILLISECONDS);
 
         this.scheduledExecutorService.scheduleAtFixedRate(new Runnable() {
@@ -314,6 +323,7 @@ public class MQClientInstance {
                     log.error("ScheduledTask adjustThreadPool exception", e);
                 }
             }
+//            1min一次调整线程池
         }, 1, 1, TimeUnit.MINUTES);
     }
 
@@ -326,6 +336,7 @@ public class MQClientInstance {
 
         // Consumer
         {
+//            消费组
             Iterator<Entry<String, MQConsumerInner>> it = this.consumerTable.entrySet().iterator();
             while (it.hasNext()) {
                 Entry<String, MQConsumerInner> entry = it.next();
@@ -973,6 +984,7 @@ public class MQClientInstance {
             MQConsumerInner impl = entry.getValue();
             if (impl != null) {
                 try {
+//                    消费负载均衡
                     impl.doRebalance();
                 } catch (Throwable e) {
                     log.error("doRebalance exception", e);

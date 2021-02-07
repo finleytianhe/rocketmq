@@ -45,12 +45,12 @@ public class MessageStoreConfig {
     // CommitLog flush interval
     // flush data to disk
     @ImportantField
-    private int flushIntervalCommitLog = 500;
+    private int flushIntervalCommitLog = 500;//500ms 一次刷新commitLog到磁盘
 
     // Only used if TransientStorePool enabled
     // flush data to FileChannel
     @ImportantField
-    private int commitIntervalCommitLog = 200;
+    private int commitIntervalCommitLog = 200;//200ms 一次刷新到fileChannel
 
     /**
      * introduced since 4.0.x. Determine whether to use mutex reentrantLock when putting message.<br/>
@@ -60,32 +60,32 @@ public class MessageStoreConfig {
 
     // Whether schedule flush,default is real-time
     @ImportantField
-    private boolean flushCommitLogTimed = false;
+    private boolean flushCommitLogTimed = false;//默认实时刷新commitLog
     // ConsumeQueue flush interval
-    private int flushIntervalConsumeQueue = 1000;
+    private int flushIntervalConsumeQueue = 1000;//消费队列刷新频次
     // Resource reclaim interval
-    private int cleanResourceInterval = 10000;
+    private int cleanResourceInterval = 10000;//资源回收频次
     // CommitLog removal interval
-    private int deleteCommitLogFilesInterval = 100;
+    private int deleteCommitLogFilesInterval = 100;//commitLog删除频次
     // ConsumeQueue removal interval
     private int deleteConsumeQueueFilesInterval = 100;
     private int destroyMapedFileIntervalForcibly = 1000 * 120;
     private int redeleteHangedFileInterval = 1000 * 120;
     // When to delete,default is at 4 am
     @ImportantField
-    private String deleteWhen = "04";
+    private String deleteWhen = "04";//默认上午4点删除
     private int diskMaxUsedSpaceRatio = 75;
     // The number of hours to keep a log file before deleting it (in hours)
     @ImportantField
-    private int fileReservedTime = 72;
+    private int fileReservedTime = 72;//文件保留3天
     // Flow control for ConsumeQueue
-    private int putMsgIndexHightWater = 600000;
+    private int putMsgIndexHightWater = 600000;//存储消息流控
     // The maximum size of message,default is 4M
     private int maxMessageSize = 1024 * 1024 * 4;
     // Whether check the CRC32 of the records consumed.
     // This ensures no on-the-wire or on-disk corruption to the messages occurred.
     // This check adds some overhead,so it may be disabled in cases seeking extreme performance.
-    private boolean checkCRCOnRecover = true;
+    private boolean checkCRCOnRecover = true;//数据恢复时检查数据完整性
     // How many pages are to be flushed when flush CommitLog
     private int flushCommitLogLeastPages = 4;
     // How many pages are to be committed when commit data to file
@@ -122,9 +122,9 @@ public class MessageStoreConfig {
     private String haMasterAddress = null;
     private int haSlaveFallbehindMax = 1024 * 1024 * 256;
     @ImportantField
-    private BrokerRole brokerRole = BrokerRole.ASYNC_MASTER;
+    private BrokerRole brokerRole = BrokerRole.ASYNC_MASTER;//异步master
     @ImportantField
-    private FlushDiskType flushDiskType = FlushDiskType.ASYNC_FLUSH;
+    private FlushDiskType flushDiskType = FlushDiskType.ASYNC_FLUSH;//异步刷盘
     private int syncFlushTimeout = 1000 * 5;
     private String messageDelayLevel = "1s 5s 10s 30s 1m 2m 3m 4m 5m 6m 7m 8m 9m 10m 20m 30m 1h 2h";
     private long flushDelayOffsetInterval = 1000 * 10;

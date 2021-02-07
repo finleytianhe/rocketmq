@@ -24,14 +24,14 @@ public class NettyClientConfig {
     private int clientCallbackExecutorThreads = Runtime.getRuntime().availableProcessors();
     private int clientOnewaySemaphoreValue = NettySystemConfig.CLIENT_ONEWAY_SEMAPHORE_VALUE;
     private int clientAsyncSemaphoreValue = NettySystemConfig.CLIENT_ASYNC_SEMAPHORE_VALUE;
-    private int connectTimeoutMillis = 3000;
-    private long channelNotActiveInterval = 1000 * 60;
+    private int connectTimeoutMillis = 3000;//连接超时3s
+    private long channelNotActiveInterval = 1000 * 60;//60s检查broker是否存活
 
     /**
      * IdleStateEvent will be triggered when neither read nor write was performed for
      * the specified period of this time. Specify {@code 0} to disable
      */
-    private int clientChannelMaxIdleTimeSeconds = 120;
+    private int clientChannelMaxIdleTimeSeconds = 120;//channel最大空闲时间
 
     private int clientSocketSndBufSize = NettySystemConfig.socketSndbufSize;
     private int clientSocketRcvBufSize = NettySystemConfig.socketRcvbufSize;

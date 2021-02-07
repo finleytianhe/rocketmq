@@ -46,6 +46,7 @@ public class ConsumerFilterManager extends ConfigManager {
 
     private static final long MS_24_HOUR = 24 * 3600 * 1000;
 
+//    topic filterData
     private ConcurrentMap<String/*Topic*/, FilterDataMapByTopic>
         filterDataByTopic = new ConcurrentHashMap<String/*Topic*/, FilterDataMapByTopic>(256);
 
@@ -53,7 +54,7 @@ public class ConsumerFilterManager extends ConfigManager {
     private transient BloomFilter bloomFilter;
 
     public ConsumerFilterManager() {
-        // just for test
+        // just for test 布隆过滤器
         this.bloomFilter = BloomFilter.createByFn(20, 64);
     }
 
@@ -136,6 +137,7 @@ public class ConsumerFilterManager extends ConfigManager {
 
     public boolean register(final String topic, final String consumerGroup, final String expression,
         final String type, final long clientVersion) {
+//        filter模式不支持tag
         if (ExpressionType.isTagType(type)) {
             return false;
         }
@@ -322,6 +324,7 @@ public class ConsumerFilterManager extends ConfigManager {
 
     public static class FilterDataMapByTopic {
 
+//        消费组 过滤信息
         private ConcurrentMap<String/*consumer group*/, ConsumerFilterData>
             groupFilterData = new ConcurrentHashMap<String, ConsumerFilterData>();
 

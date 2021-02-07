@@ -101,9 +101,11 @@ public class BrokerStartup {
         try {
             //PackageConflictDetect.detectFastjson();
             Options options = ServerUtil.buildCommandlineOptions(new Options());
+//            解析mqbroker命令
             commandLine = ServerUtil.parseCmdLine("mqbroker", args, buildCommandlineOptions(options),
                 new PosixParser());
             if (null == commandLine) {
+//                异常退出
                 System.exit(-1);
             }
 
@@ -113,6 +115,7 @@ public class BrokerStartup {
 
             nettyClientConfig.setUseTLS(Boolean.parseBoolean(System.getProperty(TLS_ENABLE,
                 String.valueOf(TlsSystemConfig.tlsMode == TlsMode.ENFORCING))));
+//            broker默认端口10911
             nettyServerConfig.setListenPort(10911);
             final MessageStoreConfig messageStoreConfig = new MessageStoreConfig();
 
@@ -122,6 +125,7 @@ public class BrokerStartup {
             }
 
             if (commandLine.hasOption('c')) {
+//                解析配置文件
                 String file = commandLine.getOptionValue('c');
                 if (file != null) {
                     configFile = file;
@@ -130,6 +134,7 @@ public class BrokerStartup {
                     properties.load(in);
 
                     properties2SystemEnv(properties);
+//                    从配置文件中解析属性装载到内存
                     MixAll.properties2Object(properties, brokerConfig);
                     MixAll.properties2Object(properties, nettyServerConfig);
                     MixAll.properties2Object(properties, nettyClientConfig);
@@ -165,11 +170,13 @@ public class BrokerStartup {
             switch (messageStoreConfig.getBrokerRole()) {
                 case ASYNC_MASTER:
                 case SYNC_MASTER:
+//                    异步master id
                     brokerConfig.setBrokerId(MixAll.MASTER_ID);
                     break;
                 case SLAVE:
                     if (brokerConfig.getBrokerId() <= 0) {
                         System.out.printf("Slave's brokerId must be > 0");
+//                         程序异常退出
                         System.exit(-3);
                     }
 
@@ -182,13 +189,16 @@ public class BrokerStartup {
                 brokerConfig.setBrokerId(-1);
             }
 
+//            ha broker 端口 10912
             messageStoreConfig.setHaListenPort(nettyServerConfig.getListenPort() + 1);
             LoggerContext lc = (LoggerContext) LoggerFactory.getILoggerFactory();
             JoranConfigurator configurator = new JoranConfigurator();
             configurator.setContext(lc);
             lc.reset();
+//            日志文件
             configurator.doConfigure(brokerConfig.getRocketmqHome() + "/conf/logback_broker.xml");
 
+//            解析参数
             if (commandLine.hasOption('p')) {
                 InternalLogger console = InternalLoggerFactory.getLogger(LoggerName.BROKER_CONSOLE_NAME);
                 MixAll.printObjectProperties(console, brokerConfig);
@@ -219,12 +229,15 @@ public class BrokerStartup {
             // remember all configs to prevent discard
             controller.getConfiguration().registerConfig(properties);
 
+//            初始化broker控制器
             boolean initResult = controller.initialize();
             if (!initResult) {
                 controller.shutdown();
+//                初始化失败退出
                 System.exit(-3);
             }
 
+//            进程退出关闭控制器
             Runtime.getRuntime().addShutdownHook(new Thread(new Runnable() {
                 private volatile boolean hasShutdown = false;
                 private AtomicInteger shutdownTimes = new AtomicInteger(0);
@@ -247,6 +260,7 @@ public class BrokerStartup {
             return controller;
         } catch (Throwable e) {
             e.printStackTrace();
+//            程序异常退出
             System.exit(-1);
         }
 
@@ -264,10 +278,12 @@ public class BrokerStartup {
     }
 
     private static Options buildCommandlineOptions(final Options options) {
+//        解析配置文件
         Option opt = new Option("c", "configFile", true, "Broker config properties file");
         opt.setRequired(false);
         options.addOption(opt);
 
+//        打印配置项
         opt = new Option("p", "printConfigItem", false, "Print all config item");
         opt.setRequired(false);
         options.addOption(opt);

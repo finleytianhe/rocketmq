@@ -441,6 +441,7 @@ class TxSendConfig {
     boolean aclEnable;
 }
 
+//lru map
 class LRUMap<K, V> extends LinkedHashMap<K, V> {
 
     private int maxSize;

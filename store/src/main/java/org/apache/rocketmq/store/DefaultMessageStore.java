@@ -1225,6 +1225,7 @@ public class DefaultMessageStore implements MessageStore {
             ConsumeQueue newLogic = new ConsumeQueue(
                 topic,
                 queueId,
+//                消息队列磁盘存储
                 StorePathConfigHelper.getStorePathConsumeQueue(this.messageStoreConfig.getStorePathRootDir()),
                 this.getMessageStoreConfig().getMappedFileSizeConsumeQueue(),
                 this);

@@ -23,6 +23,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.rocketmq.acl.plain.PlainAccessResource;
 import org.apache.rocketmq.common.protocol.RequestCode;
 
+//权限许可
 public class Permission {
 
     public static final byte DENY = 1;
@@ -32,6 +33,7 @@ public class Permission {
 
     public static final Set<Integer> ADMIN_CODE = new HashSet<Integer>();
 
+//    静态块加载
     static {
         // UPDATE_AND_CREATE_TOPIC
         ADMIN_CODE.add(RequestCode.UPDATE_AND_CREATE_TOPIC);

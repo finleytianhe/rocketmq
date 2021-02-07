@@ -30,30 +30,30 @@ public class BrokerConfig {
     private static final InternalLogger log = InternalLoggerFactory.getLogger(LoggerName.COMMON_LOGGER_NAME);
 
     private String rocketmqHome = System.getProperty(MixAll.ROCKETMQ_HOME_PROPERTY, System.getenv(MixAll.ROCKETMQ_HOME_ENV));
-    @ImportantField
+    @ImportantField //环境变量中namesrv
     private String namesrvAddr = System.getProperty(MixAll.NAMESRV_ADDR_PROPERTY, System.getenv(MixAll.NAMESRV_ADDR_ENV));
     @ImportantField
     private String brokerIP1 = RemotingUtil.getLocalAddress();
     private String brokerIP2 = RemotingUtil.getLocalAddress();
-    @ImportantField
+    @ImportantField //brokerName hostName
     private String brokerName = localHostName();
-    @ImportantField
+    @ImportantField //默认broker集群名称
     private String brokerClusterName = "DefaultCluster";
-    @ImportantField
+    @ImportantField //0L 默认master id
     private long brokerId = MixAll.MASTER_ID;
-    private int brokerPermission = PermName.PERM_READ | PermName.PERM_WRITE;
-    private int defaultTopicQueueNums = 8;
+    private int brokerPermission = PermName.PERM_READ | PermName.PERM_WRITE;//默认无权限
+    private int defaultTopicQueueNums = 8;//默认队列数8
     @ImportantField
-    private boolean autoCreateTopicEnable = true;
+    private boolean autoCreateTopicEnable = true;//自动创建topic
 
     private boolean clusterTopicEnable = true;
 
     private boolean brokerTopicEnable = true;
     @ImportantField
-    private boolean autoCreateSubscriptionGroup = true;
+    private boolean autoCreateSubscriptionGroup = true;//自动创建订阅组
     private String messageStorePlugIn = "";
     @ImportantField
-    private String msgTraceTopicName = TopicValidator.RMQ_SYS_TRACE_TOPIC;
+    private String msgTraceTopicName = TopicValidator.RMQ_SYS_TRACE_TOPIC;//trace topic
     @ImportantField
     private boolean traceTopicEnable = false;
     /**
@@ -75,6 +75,7 @@ public class BrokerConfig {
      */
     private int endTransactionThreadPoolNums = 8 + Runtime.getRuntime().availableProcessors() * 2;
 
+//    5s一次刷新consumer offset
     private int flushConsumerOffsetInterval = 1000 * 5;
 
     private int flushConsumerOffsetHistoryInterval = 1000 * 60;
@@ -83,6 +84,7 @@ public class BrokerConfig {
     private boolean rejectTransactionMessage = false;
     @ImportantField
     private boolean fetchNamesrvAddrByAddressServer = false;
+//    设置线程池队列容量
     private int sendThreadPoolQueueCapacity = 10000;
     private int pullThreadPoolQueueCapacity = 100000;
     private int replyThreadPoolQueueCapacity = 10000;
@@ -94,9 +96,9 @@ public class BrokerConfig {
 
     private int filterServerNums = 0;
 
-    private boolean longPollingEnable = true;
+    private boolean longPollingEnable = true;//长轮询
 
-    private long shortPollingTimeMills = 1000;
+    private long shortPollingTimeMills = 1000;//1s 短轮询一次
 
     private boolean notifyConsumerIdsChangedEnable = true;
 
@@ -112,7 +114,7 @@ public class BrokerConfig {
     private int maxDelayTime = 40;
 
     private String regionId = MixAll.DEFAULT_TRACE_REGION_ID;
-    private int registerBrokerTimeoutMills = 6000;
+    private int registerBrokerTimeoutMills = 6000;//注册broker超时时间
 
     private boolean slaveReadEnable = false;
 
@@ -120,6 +122,7 @@ public class BrokerConfig {
     private long consumerFallbehindThreshold = 1024L * 1024 * 1024 * 16;
 
     private boolean brokerFastFailureEnable = true;
+//    等待时间
     private long waitTimeMillsInSendQueue = 200;
     private long waitTimeMillsInPullQueue = 5 * 1000;
     private long waitTimeMillsInHeartbeatQueue = 31 * 1000;
@@ -133,13 +136,13 @@ public class BrokerConfig {
     // If switch on:
     // 1. Calculate filter bit map when construct queue.
     // 2. Filter bit map will be saved to consume queue extend file if allowed.
-    private boolean enableCalcFilterBitMap = false;
+    private boolean enableCalcFilterBitMap = false;//计算filter bitmap
 
     // Expect num of consumers will use filter.
     private int expectConsumerNumUseFilter = 32;
 
     // Error rate of bloom filter, 1~100.
-    private int maxErrorRateOfBloomFilter = 20;
+    private int maxErrorRateOfBloomFilter = 20;//布隆过滤器 最大失败rate
 
     //how long to clean filter data after dead.Default: 24h
     private long filterDataCleanTimeSpan = 24 * 3600 * 1000;
@@ -156,14 +159,14 @@ public class BrokerConfig {
      * This configurable item defines interval of topics registration of broker to name server. Allowing values are
      * between 10, 000 and 60, 000 milliseconds.
      */
-    private int registerNameServerPeriod = 1000 * 30;
+    private int registerNameServerPeriod = 1000 * 30;//30s注册broker信息到namesrv
 
     /**
      * The minimum time of the transactional message  to be checked firstly, one message only exceed this time interval
      * that can be checked.
      */
     @ImportantField
-    private long transactionTimeOut = 6 * 1000;
+    private long transactionTimeOut = 6 * 1000;//6s事务超时
 
     /**
      * The maximum number of times the message was checked, if exceed this value, this message will be discarded.

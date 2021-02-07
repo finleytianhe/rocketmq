@@ -329,6 +329,7 @@ public class BrokerController {
                 Executors.newFixedThreadPool(this.brokerConfig.getConsumerManageThreadPoolNums(), new ThreadFactoryImpl(
                     "ConsumerManageThread_"));
 
+//            注册处理器
             this.registerProcessor();
 
             final long initialDelay = UtilAll.computeNextMorningTimeMillis() - System.currentTimeMillis();
@@ -344,6 +345,7 @@ public class BrokerController {
                 }
             }, initialDelay, period, TimeUnit.MILLISECONDS);
 
+//            5s一次持久化consumer offset
             this.scheduledExecutorService.scheduleAtFixedRate(new Runnable() {
                 @Override
                 public void run() {
@@ -355,6 +357,7 @@ public class BrokerController {
                 }
             }, 1000 * 10, this.brokerConfig.getFlushConsumerOffsetInterval(), TimeUnit.MILLISECONDS);
 
+//            10s一次持久化consumer filter数据
             this.scheduledExecutorService.scheduleAtFixedRate(new Runnable() {
                 @Override
                 public void run() {
@@ -366,6 +369,7 @@ public class BrokerController {
                 }
             }, 1000 * 10, 1000 * 10, TimeUnit.MILLISECONDS);
 
+//            3min一次开启broker保护模式
             this.scheduledExecutorService.scheduleAtFixedRate(new Runnable() {
                 @Override
                 public void run() {
@@ -377,6 +381,7 @@ public class BrokerController {
                 }
             }, 3, 3, TimeUnit.MINUTES);
 
+//            1s钟一次打印队列使用情况
             this.scheduledExecutorService.scheduleAtFixedRate(new Runnable() {
                 @Override
                 public void run() {
@@ -388,6 +393,7 @@ public class BrokerController {
                 }
             }, 10, 1, TimeUnit.SECONDS);
 
+//            60s一次消息转发
             this.scheduledExecutorService.scheduleAtFixedRate(new Runnable() {
 
                 @Override
@@ -414,6 +420,7 @@ public class BrokerController {
                             log.error("ScheduledTask fetchNameServerAddr exception", e);
                         }
                     }
+//                    120s一次更新mamesrv地址
                 }, 1000 * 10, 1000 * 60 * 2, TimeUnit.MILLISECONDS);
             }
 
@@ -435,6 +442,7 @@ public class BrokerController {
                                 log.error("schedule printMasterAndSlaveDiff error.", e);
                             }
                         }
+//                        60s打印一次master和slave差距
                     }, 1000 * 10, 1000 * 60, TimeUnit.MILLISECONDS);
                 }
             }
@@ -481,6 +489,7 @@ public class BrokerController {
             }
             initialTransaction();
             initialAcl();
+//            注册server端钩子方法
             initialRpcHooks();
         }
         return result;
@@ -1147,6 +1156,7 @@ public class BrokerController {
                         log.error("ScheduledTask SlaveSynchronize syncAll error.", e);
                     }
                 }
+//                10s同步一次
             }, 1000 * 3, 1000 * 10, TimeUnit.MILLISECONDS);
         } else {
             //handle the slave synchronise

@@ -51,6 +51,7 @@ public class BrokerFastFailure {
         return null;
     }
 
+//    定时10s清除过期的请求
     public void start() {
         this.scheduledExecutorService.scheduleAtFixedRate(new Runnable() {
             @Override

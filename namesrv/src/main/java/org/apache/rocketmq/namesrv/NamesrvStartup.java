@@ -54,6 +54,7 @@ public class NamesrvStartup {
     public static NamesrvController main0(String[] args) {
 
         try {
+//            创建namesrv控制器
             NamesrvController controller = createNamesrvController(args);
             start(controller);
             String tip = "The Name Server boot success. serializeType=" + RemotingCommand.getSerializeTypeConfigInThisServer();
@@ -72,16 +73,21 @@ public class NamesrvStartup {
         System.setProperty(RemotingCommand.REMOTING_VERSION_KEY, Integer.toString(MQVersion.CURRENT_VERSION));
         //PackageConflictDetect.detectFastjson();
 
+//        commons-cli 命令行开发
         Options options = ServerUtil.buildCommandlineOptions(new Options());
+//        解析mqnamesrv命令参数
         commandLine = ServerUtil.parseCmdLine("mqnamesrv", args, buildCommandlineOptions(options), new PosixParser());
         if (null == commandLine) {
+//            没有解析到命令行，系统停止运行
             System.exit(-1);
             return null;
         }
 
         final NamesrvConfig namesrvConfig = new NamesrvConfig();
         final NettyServerConfig nettyServerConfig = new NettyServerConfig();
+//        namesrv服务端口 9876
         nettyServerConfig.setListenPort(9876);
+//       解析 c 命令参数指定配置文件，并设置到namesrvConfig、nettyServerConfig对象中
         if (commandLine.hasOption('c')) {
             String file = commandLine.getOptionValue('c');
             if (file != null) {
@@ -91,6 +97,7 @@ public class NamesrvStartup {
                 MixAll.properties2Object(properties, namesrvConfig);
                 MixAll.properties2Object(properties, nettyServerConfig);
 
+//                设置配置文件路径，命令行传参数可以指定
                 namesrvConfig.setConfigStorePath(file);
 
                 System.out.printf("load config properties file OK, %s%n", file);
@@ -99,9 +106,11 @@ public class NamesrvStartup {
         }
 
         if (commandLine.hasOption('p')) {
+//            打印namesrvConfig、nettyServerConfig配置参数
             InternalLogger console = InternalLoggerFactory.getLogger(LoggerName.NAMESRV_CONSOLE_NAME);
             MixAll.printObjectProperties(console, namesrvConfig);
             MixAll.printObjectProperties(console, nettyServerConfig);
+//            正常退出程序
             System.exit(0);
         }
 
@@ -109,6 +118,7 @@ public class NamesrvStartup {
 
         if (null == namesrvConfig.getRocketmqHome()) {
             System.out.printf("Please set the %s variable in your environment to match the location of the RocketMQ installation%n", MixAll.ROCKETMQ_HOME_ENV);
+//            异常退出程序
             System.exit(-2);
         }
 
@@ -116,16 +126,18 @@ public class NamesrvStartup {
         JoranConfigurator configurator = new JoranConfigurator();
         configurator.setContext(lc);
         lc.reset();
+//        设置日志配置文件
         configurator.doConfigure(namesrvConfig.getRocketmqHome() + "/conf/logback_namesrv.xml");
 
         log = InternalLoggerFactory.getLogger(LoggerName.NAMESRV_LOGGER_NAME);
 
+//        日志打印配置namesrvConfig、nettyServerConfig文件
         MixAll.printObjectProperties(log, namesrvConfig);
         MixAll.printObjectProperties(log, nettyServerConfig);
 
         final NamesrvController controller = new NamesrvController(namesrvConfig, nettyServerConfig);
 
-        // remember all configs to prevent discard
+        // remember all configs to prevent discard 注册配置文到allConfigs对象
         controller.getConfiguration().registerConfig(properties);
 
         return controller;
@@ -137,12 +149,15 @@ public class NamesrvStartup {
             throw new IllegalArgumentException("NamesrvController is null");
         }
 
+//        初始化启动器
         boolean initResult = controller.initialize();
         if (!initResult) {
+//            初始化失败，关闭启动器，程序异常退出
             controller.shutdown();
             System.exit(-3);
         }
 
+//         进程关闭时停止控制器
         Runtime.getRuntime().addShutdownHook(new ShutdownHookThread(log, new Callable<Void>() {
             @Override
             public Void call() throws Exception {
@@ -151,6 +166,7 @@ public class NamesrvStartup {
             }
         }));
 
+//        启动器启动
         controller.start();
 
         return controller;
@@ -161,10 +177,12 @@ public class NamesrvStartup {
     }
 
     public static Options buildCommandlineOptions(final Options options) {
+        //解析namesrv configFile
         Option opt = new Option("c", "configFile", true, "Name server config properties file");
         opt.setRequired(false);
         options.addOption(opt);
 
+//        解析printConfigItem命令
         opt = new Option("p", "printConfigItem", false, "Print all config item");
         opt.setRequired(false);
         options.addOption(opt);

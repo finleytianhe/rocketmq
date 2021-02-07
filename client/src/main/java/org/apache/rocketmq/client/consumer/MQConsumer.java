@@ -27,6 +27,7 @@ import org.apache.rocketmq.remoting.exception.RemotingException;
 /**
  * Message queue consumer interface
  */
+//
 public interface MQConsumer extends MQAdmin {
     /**
      * If consuming failure,message will be send back to the brokers,and delay consuming some time
