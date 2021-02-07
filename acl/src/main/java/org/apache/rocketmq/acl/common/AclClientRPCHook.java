@@ -28,8 +28,10 @@ import static org.apache.rocketmq.acl.common.SessionCredentials.ACCESS_KEY;
 import static org.apache.rocketmq.acl.common.SessionCredentials.SECURITY_TOKEN;
 import static org.apache.rocketmq.acl.common.SessionCredentials.SIGNATURE;
 
+//客户端访问许可
 public class AclClientRPCHook implements RPCHook {
     private final SessionCredentials sessionCredentials;
+//    本地缓存
     protected ConcurrentHashMap<Class<? extends CommandCustomHeader>, Field[]> fieldCache =
         new ConcurrentHashMap<Class<? extends CommandCustomHeader>, Field[]>();
 

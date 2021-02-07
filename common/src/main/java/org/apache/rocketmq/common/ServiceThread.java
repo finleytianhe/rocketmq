@@ -44,6 +44,7 @@ public abstract class ServiceThread implements Runnable {
 
     public void start() {
         log.info("Try to start service thread:{} started:{} lastThread:{}", getServiceName(), started.get(), thread);
+//       自旋锁
         if (!started.compareAndSet(false, true)) {
             return;
         }
@@ -66,16 +67,19 @@ public abstract class ServiceThread implements Runnable {
         log.info("shutdown thread " + this.getServiceName() + " interrupt " + interrupt);
 
         if (hasNotified.compareAndSet(false, true)) {
+//            计数器-1，减少同步点
             waitPoint.countDown(); // notify
         }
 
         try {
+//            停止线程
             if (interrupt) {
                 this.thread.interrupt();
             }
 
             long beginTime = System.currentTimeMillis();
             if (!this.thread.isDaemon()) {
+//                同步等待处理完成
                 this.thread.join(this.getJointime());
             }
             long elapsedTime = System.currentTimeMillis() - beginTime;
@@ -126,6 +130,7 @@ public abstract class ServiceThread implements Runnable {
         }
     }
 
+//    自旋锁、同步控制
     protected void waitForRunning(long interval) {
         if (hasNotified.compareAndSet(true, false)) {
             this.onWaitEnd();

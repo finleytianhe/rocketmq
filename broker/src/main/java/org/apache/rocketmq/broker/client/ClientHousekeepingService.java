@@ -44,6 +44,7 @@ public class ClientHousekeepingService implements ChannelEventListener {
             @Override
             public void run() {
                 try {
+//                    10s一次扫描异常的channel
                     ClientHousekeepingService.this.scanExceptionChannel();
                 } catch (Throwable e) {
                     log.error("Error occurred when scan not active client channels.", e);

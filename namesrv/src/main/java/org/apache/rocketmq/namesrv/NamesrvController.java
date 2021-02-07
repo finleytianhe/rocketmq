@@ -70,20 +70,26 @@ public class NamesrvController {
             log,
             this.namesrvConfig, this.nettyServerConfig
         );
+//        配置存储地址
         this.configuration.setStorePathFromConfig(this.namesrvConfig, "configStorePath");
     }
 
     public boolean initialize() {
 
+//        加载键值对配置
         this.kvConfigManager.load();
 
+//        创建netty server
         this.remotingServer = new NettyRemotingServer(this.nettyServerConfig, this.brokerHousekeepingService);
 
+//        创建remoting线程池
         this.remotingExecutor =
             Executors.newFixedThreadPool(nettyServerConfig.getServerWorkerThreads(), new ThreadFactoryImpl("RemotingExecutorThread_"));
 
+//        注册处理器
         this.registerProcessor();
 
+//        定时10s一次检查不活跃的broker
         this.scheduledExecutorService.scheduleAtFixedRate(new Runnable() {
 
             @Override
@@ -92,6 +98,7 @@ public class NamesrvController {
             }
         }, 5, 10, TimeUnit.SECONDS);
 
+//        10 min一次打印配置信息
         this.scheduledExecutorService.scheduleAtFixedRate(new Runnable() {
 
             @Override
@@ -153,9 +160,11 @@ public class NamesrvController {
     }
 
     public void start() throws Exception {
+//        remoting server启动
         this.remotingServer.start();
 
         if (this.fileWatchService != null) {
+//            文件监听服务启动
             this.fileWatchService.start();
         }
     }
@@ -166,6 +175,7 @@ public class NamesrvController {
         this.scheduledExecutorService.shutdown();
 
         if (this.fileWatchService != null) {
+//            文件服务停止
             this.fileWatchService.shutdown();
         }
     }

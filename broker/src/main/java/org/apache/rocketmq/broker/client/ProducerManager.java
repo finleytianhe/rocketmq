@@ -32,8 +32,9 @@ import org.apache.rocketmq.remoting.common.RemotingUtil;
 
 public class ProducerManager {
     private static final InternalLogger log = InternalLoggerFactory.getLogger(LoggerName.BROKER_LOGGER_NAME);
-    private static final long CHANNEL_EXPIRED_TIMEOUT = 1000 * 120;
-    private static final int GET_AVAILABLE_CHANNEL_RETRY_COUNT = 3;
+    private static final long CHANNEL_EXPIRED_TIMEOUT = 1000 * 120;//channel超时时间
+    private static final int GET_AVAILABLE_CHANNEL_RETRY_COUNT = 3;//重试3次
+//    producer信息
     private final ConcurrentHashMap<String /* group name */, ConcurrentHashMap<Channel, ClientChannelInfo>> groupChannelTable =
         new ConcurrentHashMap<>();
     private final ConcurrentHashMap<String, Channel> clientChannelTable = new ConcurrentHashMap<>();
@@ -65,6 +66,7 @@ public class ProducerManager {
                     log.warn(
                             "SCAN: remove expired channel[{}] from ProducerManager groupChannelTable, producer group name: {}",
                             RemotingHelper.parseChannelRemoteAddr(info.getChannel()), group);
+//                    删除超时的channel
                     RemotingUtil.closeChannel(info.getChannel());
                 }
             }
@@ -81,6 +83,7 @@ public class ProducerManager {
                 final ClientChannelInfo clientChannelInfo =
                         clientChannelInfoTable.remove(channel);
                 if (clientChannelInfo != null) {
+//                    channel关闭清楚缓存
                     clientChannelTable.remove(clientChannelInfo.getClientId());
                     log.info(
                             "NETTY EVENT: remove channel[{}][{}] from ProducerManager groupChannelTable, producer group: {}",
@@ -103,6 +106,7 @@ public class ProducerManager {
         clientChannelInfoFound = channelTable.get(clientChannelInfo.getChannel());
         if (null == clientChannelInfoFound) {
             channelTable.put(clientChannelInfo.getChannel(), clientChannelInfo);
+//            注册producer
             clientChannelTable.put(clientChannelInfo.getClientId(), clientChannelInfo.getChannel());
             log.info("new producer connected, group: {} channel: {}", group,
                     clientChannelInfo.toString());
@@ -125,6 +129,7 @@ public class ProducerManager {
             }
 
             if (channelTable.isEmpty()) {
+//                取消注册producer
                 this.groupChannelTable.remove(group);
                 log.info("unregister a producer group[{}] from groupChannelTable", group);
             }
@@ -152,6 +157,7 @@ public class ProducerManager {
 
         Channel lastActiveChannel = null;
 
+//        轮询获取存活的producer
         int index = positiveAtomicCounter.incrementAndGet() % size;
         Channel channel = channelList.get(index);
         int count = 0;
@@ -172,6 +178,7 @@ public class ProducerManager {
     }
 
     public Channel findChannel(String clientId) {
+//        producer client channel
         return clientChannelTable.get(clientId);
     }
 }

@@ -37,6 +37,8 @@ public class ConsumerOffsetManager extends ConfigManager {
     private static final InternalLogger log = InternalLoggerFactory.getLogger(LoggerName.BROKER_LOGGER_NAME);
     private static final String TOPIC_GROUP_SEPARATOR = "@";
 
+//    topic消费组的offset 远程模式保存broker端，另一种模式保存在客户端本地，两种模式
+//    kafka是保存在server端有一个offset的topic
     private ConcurrentMap<String/* topic@group */, ConcurrentMap<Integer, Long>> offsetTable =
         new ConcurrentHashMap<String, ConcurrentMap<Integer, Long>>(512);
 
@@ -158,6 +160,7 @@ public class ConsumerOffsetManager extends ConfigManager {
 
     @Override
     public String configFilePath() {
+//        consumerOffset 文件
         return BrokerPathConfigHelper.getConsumerOffsetPath(this.brokerController.getMessageStoreConfig().getStorePathRootDir());
     }
 

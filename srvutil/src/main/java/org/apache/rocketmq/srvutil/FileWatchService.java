@@ -39,7 +39,7 @@ public class FileWatchService extends ServiceThread {
     private final List<String> watchFiles;
     private final List<String> fileCurrentHash;
     private final Listener listener;
-    private static final int WATCH_INTERVAL = 500;
+    private static final int WATCH_INTERVAL = 500;//500ms监听文件
     private MessageDigest md = MessageDigest.getInstance("MD5");
 
     public FileWatchService(final String[] watchFiles,

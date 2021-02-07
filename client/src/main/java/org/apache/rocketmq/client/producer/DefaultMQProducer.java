@@ -88,7 +88,7 @@ public class DefaultMQProducer extends ClientConfig implements MQProducer {
     /**
      * Timeout for sending messages.
      */
-    private int sendMsgTimeout = 3000;
+    private int sendMsgTimeout = 3000;//发送消息超时时间
 
     /**
      * Compress message body threshold, namely, message body larger than 4k will be compressed on default.
@@ -121,6 +121,7 @@ public class DefaultMQProducer extends ClientConfig implements MQProducer {
     /**
      * Maximum allowed message size in bytes.
      */
+//    消息最大大小
     private int maxMessageSize = 1024 * 1024 * 4; // 4M
 
     /**
@@ -169,7 +170,7 @@ public class DefaultMQProducer extends ClientConfig implements MQProducer {
         //if client open the message trace feature
         if (enableMsgTrace) {
             try {
-//                消息跟踪trace基于钩子实现
+//                基于trace topic实现消息跟踪的
                 AsyncTraceDispatcher dispatcher = new AsyncTraceDispatcher(producerGroup, TraceDispatcher.Type.PRODUCE, customizedTraceTopic, rpcHook);
                 dispatcher.setHostProducer(this.defaultMQProducerImpl);
                 traceDispatcher = dispatcher;
@@ -277,6 +278,7 @@ public class DefaultMQProducer extends ClientConfig implements MQProducer {
     @Override
     public void start() throws MQClientException {
         this.setProducerGroup(withNamespace(this.producerGroup));
+//        生产者启动
         this.defaultMQProducerImpl.start();
         if (null != traceDispatcher) {
             try {
@@ -325,7 +327,6 @@ public class DefaultMQProducer extends ClientConfig implements MQProducer {
      * @throws MQBrokerException if there is any error with broker.
      * @throws InterruptedException if the sending thread is interrupted.
      */
-//    以同步模式发送消息。此方法仅在发送过程完全完成时返回。Warn:该方法具有内部重试机制，即内部实现将在声明失败之前重试retryTimesWhenSendFailed次数。因此，可能会有多个消息被传递给代理。解决潜在的复制问题取决于应用程序开发人员。
     @Override
     public SendResult send(
         Message msg) throws MQClientException, RemotingException, MQBrokerException, InterruptedException {

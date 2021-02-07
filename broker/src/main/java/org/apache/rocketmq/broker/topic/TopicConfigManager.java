@@ -47,6 +47,7 @@ public class TopicConfigManager extends ConfigManager {
 
     private transient final Lock lockTopicConfigTable = new ReentrantLock();
 
+//    topic信息
     private final ConcurrentMap<String, TopicConfig> topicConfigTable =
         new ConcurrentHashMap<String, TopicConfig>(1024);
     private final DataVersion dataVersion = new DataVersion();
@@ -66,6 +67,7 @@ public class TopicConfigManager extends ConfigManager {
             this.topicConfigTable.put(topicConfig.getTopicName(), topicConfig);
         }
         {
+//            自动创建topic
             if (this.brokerController.getBrokerConfig().isAutoCreateTopicEnable()) {
                 String topic = TopicValidator.AUTO_CREATE_TOPIC_KEY_TOPIC;
                 TopicConfig topicConfig = new TopicConfig(topic);
@@ -121,6 +123,7 @@ public class TopicConfigManager extends ConfigManager {
             topicConfig.setWriteQueueNums(1);
             this.topicConfigTable.put(topicConfig.getTopicName(), topicConfig);
         }
+//        定时topic
         {
             String topic = TopicValidator.RMQ_SYS_SCHEDULE_TOPIC;
             TopicConfig topicConfig = new TopicConfig(topic);
@@ -129,6 +132,7 @@ public class TopicConfigManager extends ConfigManager {
             topicConfig.setWriteQueueNums(SCHEDULE_TOPIC_QUEUE_NUM);
             this.topicConfigTable.put(topicConfig.getTopicName(), topicConfig);
         }
+//        trace topic
         {
             if (this.brokerController.getBrokerConfig().isTraceTopicEnable()) {
                 String topic = this.brokerController.getBrokerConfig().getMsgTraceTopicName();
@@ -139,6 +143,7 @@ public class TopicConfigManager extends ConfigManager {
                 this.topicConfigTable.put(topicConfig.getTopicName(), topicConfig);
             }
         }
+//        重试topic
         {
             String topic = this.brokerController.getBrokerConfig().getBrokerClusterName() + "_" + MixAll.REPLY_TOPIC_POSTFIX;
             TopicConfig topicConfig = new TopicConfig(topic);
@@ -220,6 +225,7 @@ public class TopicConfigManager extends ConfigManager {
             log.error("createTopicInSendMessageMethod exception", e);
         }
 
+//        新创建的topic注册到所有broker
         if (createNew) {
             this.brokerController.registerBrokerAll(false, true, true);
         }

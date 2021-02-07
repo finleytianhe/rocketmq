@@ -48,11 +48,11 @@ public class TransactionalMessageServiceImpl implements TransactionalMessageServ
 
     private TransactionalMessageBridge transactionalMessageBridge;
 
-    private static final int PULL_MSG_RETRY_NUMBER = 1;
+    private static final int PULL_MSG_RETRY_NUMBER = 1;//拉取消息重试
 
-    private static final int MAX_PROCESS_TIME_LIMIT = 60000;
+    private static final int MAX_PROCESS_TIME_LIMIT = 60000;//最大处理超时时间
 
-    private static final int MAX_RETRY_COUNT_WHEN_HALF_NULL = 1;
+    private static final int MAX_RETRY_COUNT_WHEN_HALF_NULL = 1;//半消息最大重试次数
 
     public TransactionalMessageServiceImpl(TransactionalMessageBridge transactionBridge) {
         this.transactionalMessageBridge = transactionBridge;

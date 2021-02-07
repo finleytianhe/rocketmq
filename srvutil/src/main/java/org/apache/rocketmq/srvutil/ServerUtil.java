@@ -27,10 +27,12 @@ import org.apache.commons.cli.ParseException;
 public class ServerUtil {
 
     public static Options buildCommandlineOptions(final Options options) {
+//        help命令支持
         Option opt = new Option("h", "help", false, "Print help");
         opt.setRequired(false);
         options.addOption(opt);
 
+//        namesrv命令
         opt =
             new Option("n", "namesrvAddr", true,
                 "Name server address list, eg: 192.168.0.1:9876;192.168.0.2:9876");
@@ -49,10 +51,11 @@ public class ServerUtil {
             commandLine = parser.parse(options, args);
             if (commandLine.hasOption('h')) {
                 hf.printHelp(appName, options, true);
-                System.exit(0);
+                System.exit(0);//正常退出程序
             }
         } catch (ParseException e) {
             hf.printHelp(appName, options, true);
+//            异常退出程序
             System.exit(1);
         }
 

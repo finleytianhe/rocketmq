@@ -34,6 +34,7 @@ public class KVConfigManager {
     private final NamesrvController namesrvController;
 
     private final ReadWriteLock lock = new ReentrantReadWriteLock();
+//    本地缓存，不存在并发场景就不用非线程安全的数据结构减少开销
     private final HashMap<String/* Namespace */, HashMap<String/* Key */, String/* Value */>> configTable =
         new HashMap<String, HashMap<String, String>>();
 
@@ -42,6 +43,7 @@ public class KVConfigManager {
     }
 
     public void load() {
+//        加载配置
         String content = null;
         try {
             content = MixAll.file2String(this.namesrvController.getNamesrvConfig().getKvConfigPath());
@@ -58,6 +60,7 @@ public class KVConfigManager {
         }
     }
 
+//    添加配置
     public void putKVConfig(final String namespace, final String key, final String value) {
         try {
             this.lock.writeLock().lockInterruptibly();
@@ -89,6 +92,7 @@ public class KVConfigManager {
 
     public void persist() {
         try {
+//            持久化配置
             this.lock.readLock().lockInterruptibly();
             try {
                 KVConfigSerializeWrapper kvConfigSerializeWrapper = new KVConfigSerializeWrapper();
@@ -117,6 +121,7 @@ public class KVConfigManager {
             try {
                 HashMap<String, String> kvTable = this.configTable.get(namespace);
                 if (null != kvTable) {
+//                    删除配置
                     String value = kvTable.remove(key);
                     log.info("deleteKVConfig delete a config item, Namespace: {} Key: {} Value: {}",
                         namespace, key, value);
@@ -138,6 +143,7 @@ public class KVConfigManager {
                 HashMap<String, String> kvTable = this.configTable.get(namespace);
                 if (null != kvTable) {
                     KVTable table = new KVTable();
+//                    查询配置
                     table.setTable(kvTable);
                     return table.encode();
                 }
@@ -157,6 +163,7 @@ public class KVConfigManager {
             try {
                 HashMap<String, String> kvTable = this.configTable.get(namespace);
                 if (null != kvTable) {
+//                    查询配置
                     return kvTable.get(key);
                 }
             } finally {
@@ -184,6 +191,7 @@ public class KVConfigManager {
                         Iterator<Entry<String, String>> itSub = next.getValue().entrySet().iterator();
                         while (itSub.hasNext()) {
                             Entry<String, String> nextSub = itSub.next();
+//                            打印配置
                             log.info("configTable NS: {} Key: {} Value: {}", next.getKey(), nextSub.getKey(),
                                 nextSub.getValue());
                         }

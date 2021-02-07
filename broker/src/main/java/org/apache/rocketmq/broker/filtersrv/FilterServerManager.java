@@ -52,6 +52,7 @@ public class FilterServerManager {
 
     public void start() {
 
+//         定时30s创建filter server，shell调用
         this.scheduledExecutorService.scheduleAtFixedRate(new Runnable() {
             @Override
             public void run() {
@@ -118,6 +119,7 @@ public class FilterServerManager {
             Entry<Channel, FilterServerInfo> next = it.next();
             long timestamp = next.getValue().getLastUpdateTimestamp();
             Channel channel = next.getKey();
+//            30s超时关闭channel
             if ((System.currentTimeMillis() - timestamp) > FILTER_SERVER_MAX_IDLE_TIME_MILLS) {
                 log.info("The Filter Server<{}> expired, remove it", next.getKey());
                 it.remove();
