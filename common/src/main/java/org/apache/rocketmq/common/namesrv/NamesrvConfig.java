@@ -29,6 +29,7 @@ import org.apache.rocketmq.logging.InternalLoggerFactory;
 public class NamesrvConfig {
     private static final InternalLogger log = InternalLoggerFactory.getLogger(LoggerName.NAMESRV_LOGGER_NAME);
 
+    //idea配置环境变量 ROCKETMQ_HOME=/Users/jiangweifeng/rocketmq
     private String rocketmqHome = System.getProperty(MixAll.ROCKETMQ_HOME_PROPERTY, System.getenv(MixAll.ROCKETMQ_HOME_ENV));
 //    键值对配置
     private String kvConfigPath = System.getProperty("user.home") + File.separator + "namesrv" + File.separator + "kvConfig.json";

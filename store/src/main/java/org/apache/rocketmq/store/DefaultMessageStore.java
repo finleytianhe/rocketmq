@@ -232,9 +232,13 @@ public class DefaultMessageStore implements MessageStore {
         {
             /**
              * 1. Make sure the fast-forward messages to be truncated during the recovering according to the max physical offset of the commitlog;
+             * 确保在恢复过程中根据commitlog的最大物理偏移量截断快进消息;
              * 2. DLedger committedPos may be missing, so the maxPhysicalPosInLogicQueue maybe bigger that maxOffset returned by DLedgerCommitLog, just let it go;
+             * DLedger committedPos可能丢失了，所以maxPhysicalPosInLogicQueue可能大于DLedgerCommitLog返回的maxOffset，让它去吧;
              * 3. Calculate the reput offset according to the consume queue;
+             * 根据消耗队列计算重放偏移量;
              * 4. Make sure the fall-behind messages to be dispatched before starting the commitlog, especially when the broker role are automatically changed.
+             * 确保在启动commitlog之前要调度落后消息，特别是在代理角色被自动更改时。
              */
             long maxPhysicalPosInLogicQueue = commitLog.getMinOffset();
             for (ConcurrentMap<Integer, ConsumeQueue> maps : this.consumeQueueTable.values()) {
@@ -251,11 +255,16 @@ public class DefaultMessageStore implements MessageStore {
                 maxPhysicalPosInLogicQueue = this.commitLog.getMinOffset();
                 /**
                  * This happens in following conditions:
+                 * 这种情况发生在以下情况:
                  * 1. If someone removes all the consumequeue files or the disk get damaged.
+                 * 如果有人删除了所有的消费队列文件或磁盘被损坏。
                  * 2. Launch a new broker, and copy the commitlog from other brokers.
+                 * 启动一个新的代理，并从其他代理复制提交日志。
                  *
                  * All the conditions has the same in common that the maxPhysicalPosInLogicQueue should be 0.
+                 * 所有条件都有一个共同之处，即maxPhysicalPosInLogicQueue应该为0。
                  * If the maxPhysicalPosInLogicQueue is gt 0, there maybe something wrong.
+                 * 如果maxPhysicalPosInLogicQueue为gt 0，说明可能有问题。
                  */
                 log.warn("[TooSmallCqOffset] maxPhysicalPosInLogicQueue={} clMinOffset={}", maxPhysicalPosInLogicQueue, this.commitLog.getMinOffset());
             }
@@ -266,7 +275,9 @@ public class DefaultMessageStore implements MessageStore {
 
             /**
              *  1. Finish dispatching the messages fall behind, then to start other services.
+             *  发送完落后的消息后，再启动其他服务。
              *  2. DLedger committedPos may be missing, so here just require dispatchBehindBytes <= 0
+             *  DLedger committedPos可能丢失了，所以这里只需要dispatchBehindBytes <= 0
              */
             while (true) {
                 if (dispatchBehindBytes() <= 0) {
@@ -1523,6 +1534,7 @@ public class DefaultMessageStore implements MessageStore {
     @Override
     public void handleScheduleMessageService(final BrokerRole brokerRole) {
         if (this.scheduleMessageService != null) {
+//            从节点不开启定时任务
             if (brokerRole == BrokerRole.SLAVE) {
                 this.scheduleMessageService.shutdown();
             } else {

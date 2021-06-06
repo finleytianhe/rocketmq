@@ -100,6 +100,10 @@ public class BrokerStartup {
 
         try {
             //PackageConflictDetect.detectFastjson();
+
+//            解析命令参数
+//            n namesrv地址列表 p 打印配置参数 c 配置文件
+//            namesrvAddr namesrv地址列表 printConfigItem 打印配置项 configFile 配置文件
             Options options = ServerUtil.buildCommandlineOptions(new Options());
 //            解析mqbroker命令
             commandLine = ServerUtil.parseCmdLine("mqbroker", args, buildCommandlineOptions(options),

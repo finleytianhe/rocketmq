@@ -85,6 +85,7 @@ public class TopicPublishInfo {
     }
 
     public MessageQueue selectOneMessageQueue() {
+//        轮询的方式查找队列
         int index = this.sendWhichQueue.getAndIncrement();
         int pos = Math.abs(index) % this.messageQueueList.size();
         if (pos < 0)

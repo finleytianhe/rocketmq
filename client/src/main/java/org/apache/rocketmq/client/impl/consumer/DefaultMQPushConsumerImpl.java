@@ -594,10 +594,12 @@ public class DefaultMQPushConsumerImpl implements MQConsumerInner {
                 if (this.defaultMQPushConsumer.getOffsetStore() != null) {
                     this.offsetStore = this.defaultMQPushConsumer.getOffsetStore();
                 } else {
+//                    广播模式是本地存储offset
                     switch (this.defaultMQPushConsumer.getMessageModel()) {
                         case BROADCASTING:
                             this.offsetStore = new LocalFileOffsetStore(this.mQClientFactory, this.defaultMQPushConsumer.getConsumerGroup());
                             break;
+//                            集群消费是远程存储offset
                         case CLUSTERING:
                             this.offsetStore = new RemoteBrokerOffsetStore(this.mQClientFactory, this.defaultMQPushConsumer.getConsumerGroup());
                             break;

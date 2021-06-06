@@ -58,6 +58,7 @@ public class ConsumerFilterManager extends ConfigManager {
         this.bloomFilter = BloomFilter.createByFn(20, 64);
     }
 
+//    布隆过滤器
     public ConsumerFilterManager(BrokerController brokerController) {
         this.brokerController = brokerController;
         this.bloomFilter = BloomFilter.createByFn(

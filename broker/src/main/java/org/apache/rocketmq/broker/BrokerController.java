@@ -642,6 +642,7 @@ public class BrokerController {
     }
 
     public void protectBroker() {
+//        如果消费慢禁止消费，默认关闭
         if (this.brokerConfig.isDisableConsumeIfConsumerReadSlowly()) {
             final Iterator<Map.Entry<String, MomentStatsItem>> it = this.brokerStatsManager.getMomentStatsItemSetFallSize().getStatsItemTable().entrySet().iterator();
             while (it.hasNext()) {

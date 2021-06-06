@@ -74,6 +74,10 @@ public class NamesrvStartup {
         //PackageConflictDetect.detectFastjson();
 
 //        commons-cli 命令行开发
+
+//        解析完的option参数
+//        简写 p 打印配置参数 c namesrv配置文件 n namesrv地址列表
+//        不简写 printConfigItem 打印配置参数 configFile namesrv配置文件路径 namesrvAddr namesrv地址列表
         Options options = ServerUtil.buildCommandlineOptions(new Options());
 //        解析mqnamesrv命令参数
         commandLine = ServerUtil.parseCmdLine("mqnamesrv", args, buildCommandlineOptions(options), new PosixParser());
@@ -83,6 +87,8 @@ public class NamesrvStartup {
             return null;
         }
 
+//        kvConfigPath /Users/jiangweifeng/namesrv/kvConfig.json
+//        configStorePath /Users/jiangweifeng/namesrv/namesrv.properties
         final NamesrvConfig namesrvConfig = new NamesrvConfig();
         final NettyServerConfig nettyServerConfig = new NettyServerConfig();
 //        namesrv服务端口 9876
