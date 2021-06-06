@@ -98,6 +98,7 @@ public class DefaultMQProducerImpl implements MQProducerInner {
     private final InternalLogger log = ClientLogger.getLog();
     private final Random random = new Random();
     private final DefaultMQProducer defaultMQProducer;
+//    topic发布信息
     private final ConcurrentMap<String/* topic */, TopicPublishInfo> topicPublishInfoTable =
         new ConcurrentHashMap<String, TopicPublishInfo>();
     private final ArrayList<SendMessageHook> sendMessageHookList = new ArrayList<SendMessageHook>();
@@ -189,6 +190,7 @@ public class DefaultMQProducerImpl implements MQProducerInner {
 
                 this.mQClientFactory = MQClientManager.getInstance().getOrCreateMQClientInstance(this.defaultMQProducer, rpcHook);
 
+//                mqclient注册生产者
                 boolean registerOK = mQClientFactory.registerProducer(this.defaultMQProducer.getProducerGroup(), this);
                 if (!registerOK) {
                     this.serviceState = ServiceState.CREATE_JUST;
@@ -197,6 +199,7 @@ public class DefaultMQProducerImpl implements MQProducerInner {
                         null);
                 }
 
+//                注册topic发布信息
                 this.topicPublishInfoTable.put(this.defaultMQProducer.getCreateTopicKey(), new TopicPublishInfo());
 
                 if (startFactory) {
@@ -220,6 +223,7 @@ public class DefaultMQProducerImpl implements MQProducerInner {
 
         this.mQClientFactory.sendHeartbeatToAllBrokerWithLock();
 
+//        1s扫描一次过期的请求和琼求回调
         this.timer.scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
@@ -555,6 +559,7 @@ public class DefaultMQProducerImpl implements MQProducerInner {
         long beginTimestampFirst = System.currentTimeMillis();
         long beginTimestampPrev = beginTimestampFirst;
         long endTimestamp = beginTimestampFirst;
+//        找到topic的发布信息
         TopicPublishInfo topicPublishInfo = this.tryToFindTopicPublishInfo(msg.getTopic());
         if (topicPublishInfo != null && topicPublishInfo.ok()) {
             boolean callTimeout = false;
@@ -566,6 +571,7 @@ public class DefaultMQProducerImpl implements MQProducerInner {
             String[] brokersSent = new String[timesTotal];
             for (; times < timesTotal; times++) {
                 String lastBrokerName = null == mq ? null : mq.getBrokerName();
+//                找到一个消息队列
                 MessageQueue mqSelected = this.selectOneMessageQueue(topicPublishInfo, lastBrokerName);
                 if (mqSelected != null) {
                     mq = mqSelected;
@@ -582,6 +588,7 @@ public class DefaultMQProducerImpl implements MQProducerInner {
                             break;
                         }
 
+//                        发送消息，异步跨进程回调
                         sendResult = this.sendKernelImpl(msg, mq, communicationMode, sendCallback, topicPublishInfo, timeout - costTime);
                         endTimestamp = System.currentTimeMillis();
                         this.updateFaultItem(mq.getBrokerName(), endTimestamp - beginTimestampPrev, false);
@@ -1352,6 +1359,7 @@ public class DefaultMQProducerImpl implements MQProducerInner {
 
         try {
             final RequestResponseFuture requestResponseFuture = new RequestResponseFuture(correlationId, timeout, null);
+//            异步 rpc请求响应映射关系
             RequestFutureTable.getRequestFutureTable().put(correlationId, requestResponseFuture);
 
             long cost = System.currentTimeMillis() - beginTimestamp;

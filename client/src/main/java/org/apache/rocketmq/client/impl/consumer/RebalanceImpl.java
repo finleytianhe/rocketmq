@@ -42,13 +42,15 @@ import org.apache.rocketmq.common.protocol.heartbeat.SubscriptionData;
 
 public abstract class RebalanceImpl {
     protected static final InternalLogger log = ClientLogger.getLog();
-//    消息处理队列
+//    process queue
     protected final ConcurrentMap<MessageQueue, ProcessQueue> processQueueTable = new ConcurrentHashMap<MessageQueue, ProcessQueue>(64);
     protected final ConcurrentMap<String/* topic */, Set<MessageQueue>> topicSubscribeInfoTable =
-        new ConcurrentHashMap<String, Set<MessageQueue>>();
+        new ConcurrentHashMap<String, Set<MessageQueue>>();//topic订阅信息
+//    topic订阅信息
     protected final ConcurrentMap<String /* topic */, SubscriptionData> subscriptionInner =
         new ConcurrentHashMap<String, SubscriptionData>();
     protected String consumerGroup;
+//    消费模型，是集群消费还是广播消费
     protected MessageModel messageModel;
     protected AllocateMessageQueueStrategy allocateMessageQueueStrategy;
     protected MQClientInstance mQClientFactory;
@@ -220,6 +222,7 @@ public abstract class RebalanceImpl {
             for (final Map.Entry<String, SubscriptionData> entry : subTable.entrySet()) {
                 final String topic = entry.getKey();
                 try {
+//                    rebalance
                     this.rebalanceByTopic(topic, isOrder);
                 } catch (Throwable e) {
                     if (!topic.startsWith(MixAll.RETRY_GROUP_TOPIC_PREFIX)) {
@@ -279,6 +282,7 @@ public abstract class RebalanceImpl {
 
                     List<MessageQueue> allocateResult = null;
                     try {
+//                        消息队列分配策略
                         allocateResult = strategy.allocate(
                             this.consumerGroup,
                             this.mQClientFactory.getClientId(),
@@ -470,6 +474,7 @@ public abstract class RebalanceImpl {
             next.getValue().setDropped(true);
         }
 
+//        清除处理队列
         this.processQueueTable.clear();
     }
 }

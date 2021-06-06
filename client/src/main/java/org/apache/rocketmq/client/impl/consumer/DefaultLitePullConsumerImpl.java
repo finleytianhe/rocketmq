@@ -71,6 +71,7 @@ import org.apache.rocketmq.logging.InternalLogger;
 import org.apache.rocketmq.remoting.RPCHook;
 import org.apache.rocketmq.remoting.exception.RemotingException;
 
+//
 public class DefaultLitePullConsumerImpl implements MQConsumerInner {
 
     private final InternalLogger log = ClientLogger.getLog();
@@ -79,6 +80,7 @@ public class DefaultLitePullConsumerImpl implements MQConsumerInner {
 
     private final RPCHook rpcHook;
 
+//    filter message hook
     private final ArrayList<FilterMessageHook> filterMessageHookList = new ArrayList<FilterMessageHook>();
 
     private volatile ServiceState serviceState = ServiceState.CREATE_JUST;
@@ -105,18 +107,22 @@ public class DefaultLitePullConsumerImpl implements MQConsumerInner {
     /**
      * Delay some time when exception occur
      */
+//    异常拉取延迟
     private long pullTimeDelayMillsWhenException = 1000;
     /**
      * Flow control interval
      */
+//    延迟流控
     private static final long PULL_TIME_DELAY_MILLS_WHEN_FLOW_CONTROL = 50;
     /**
      * Delay some time when suspend pull service
      */
+//    暂停拉取延迟
     private static final long PULL_TIME_DELAY_MILLS_WHEN_PAUSE = 1000;
 
     private DefaultLitePullConsumer defaultLitePullConsumer;
 
+//    消息队列拉取任务
     private final ConcurrentMap<MessageQueue, PullTaskImpl> taskTable =
         new ConcurrentHashMap<MessageQueue, PullTaskImpl>();
 
@@ -128,8 +134,10 @@ public class DefaultLitePullConsumerImpl implements MQConsumerInner {
 
     private final ScheduledExecutorService scheduledExecutorService;
 
+//    topix消息队列变更，topic扩展时
     private Map<String, TopicMessageQueueChangeListener> topicMessageQueueChangeListenerMap = new HashMap<String, TopicMessageQueueChangeListener>();
 
+//    topic消息队列
     private Map<String, Set<MessageQueue>> messageQueuesForTopic = new HashMap<String, Set<MessageQueue>>();
 
     private long consumeRequestFlowControlTimes = 0L;
@@ -192,6 +200,7 @@ public class DefaultLitePullConsumerImpl implements MQConsumerInner {
         startPullTask(mqNewSet);
     }
 
+//
     class MessageQueueListenerImpl implements MessageQueueListener {
         @Override
         public void messageQueueChanged(String topic, Set<MessageQueue> mqAll, Set<MessageQueue> mqDivided) {
@@ -238,24 +247,30 @@ public class DefaultLitePullConsumerImpl implements MQConsumerInner {
             case CREATE_JUST:
                 this.serviceState = ServiceState.START_FAILED;
 
+//                消费组等信息检查
                 this.checkConfig();
 
                 if (this.defaultLitePullConsumer.getMessageModel() == MessageModel.CLUSTERING) {
                     this.defaultLitePullConsumer.changeInstanceNameToPID();
                 }
 
+//                初始化mqclient并注册消费组的消费者
                 initMQClientFactory();
 
+//                初始化rebalance设置
                 initRebalanceImpl();
 
                 initPullAPIWrapper();
 
+//                加载offset
                 initOffsetStore();
 
                 mQClientFactory.start();
 
+//                启动topic消息队列变动监听，一般发生在topic扩展的时候
                 startScheduleTask();
 
+//                服务状态为运行中
                 this.serviceState = ServiceState.RUNNING;
 
                 log.info("the consumer [{}] start OK", this.defaultLitePullConsumer.getConsumerGroup());
@@ -276,7 +291,9 @@ public class DefaultLitePullConsumerImpl implements MQConsumerInner {
     }
 
     private void initMQClientFactory() throws MQClientException {
+//        创建mqClient对象
         this.mQClientFactory = MQClientManager.getInstance().getOrCreateMQClientInstance(this.defaultLitePullConsumer, this.rpcHook);
+//        注册consumer到mqClient
         boolean registerOK = mQClientFactory.registerConsumer(this.defaultLitePullConsumer.getConsumerGroup(), this);
         if (!registerOK) {
             this.serviceState = ServiceState.CREATE_JUST;
@@ -290,6 +307,7 @@ public class DefaultLitePullConsumerImpl implements MQConsumerInner {
     private void initRebalanceImpl() {
         this.rebalanceImpl.setConsumerGroup(this.defaultLitePullConsumer.getConsumerGroup());
         this.rebalanceImpl.setMessageModel(this.defaultLitePullConsumer.getMessageModel());
+//        设置默认的消息分配策略
         this.rebalanceImpl.setAllocateMessageQueueStrategy(this.defaultLitePullConsumer.getAllocateMessageQueueStrategy());
         this.rebalanceImpl.setmQClientFactory(this.mQClientFactory);
     }
@@ -306,9 +324,11 @@ public class DefaultLitePullConsumerImpl implements MQConsumerInner {
             this.offsetStore = this.defaultLitePullConsumer.getOffsetStore();
         } else {
             switch (this.defaultLitePullConsumer.getMessageModel()) {
+//                广播消费是本地存储offset
                 case BROADCASTING:
                     this.offsetStore = new LocalFileOffsetStore(this.mQClientFactory, this.defaultLitePullConsumer.getConsumerGroup());
                     break;
+//                    集群消费是远程的存储offset
                 case CLUSTERING:
                     this.offsetStore = new RemoteBrokerOffsetStore(this.mQClientFactory, this.defaultLitePullConsumer.getConsumerGroup());
                     break;
@@ -317,9 +337,11 @@ public class DefaultLitePullConsumerImpl implements MQConsumerInner {
             }
             this.defaultLitePullConsumer.setOffsetStore(this.offsetStore);
         }
+//        加载offset
         this.offsetStore.load();
     }
 
+//    30s一次
     private void startScheduleTask() {
         scheduledExecutorService.scheduleAtFixedRate(
             new Runnable() {
@@ -336,7 +358,7 @@ public class DefaultLitePullConsumerImpl implements MQConsumerInner {
 
     private void operateAfterRunning() throws MQClientException {
         // If subscribe function invoke before start function, then update topic subscribe info after initialization.
-        if (subscriptionType == SubscriptionType.SUBSCRIBE) {
+        if (subscriptionType == SubscriptionType.SUBSCRIBE) {//启动时从namesrv拉取topic订阅信息
             updateTopicSubscribeInfoWhenSubscriptionChanged();
         }
         // If assign function invoke before start function, then update pull task after initialization.
@@ -413,6 +435,7 @@ public class DefaultLitePullConsumerImpl implements MQConsumerInner {
             }
         }
 
+//        执行消息拉取任务
         startPullTask(mqNewSet);
     }
 
@@ -490,6 +513,7 @@ public class DefaultLitePullConsumerImpl implements MQConsumerInner {
     private void maybeAutoCommit() {
         long now = System.currentTimeMillis();
         if (now >= nextAutoCommitDeadline) {
+//            commit offset
             commitAll();
             nextAutoCommitDeadline = now + defaultLitePullConsumer.getAutoCommitIntervalMillis();
         }
@@ -497,6 +521,7 @@ public class DefaultLitePullConsumerImpl implements MQConsumerInner {
 
     public synchronized List<MessageExt> poll(long timeout) {
         try {
+//            检查服务状态是否是运行中
             checkServiceState();
             if (timeout < 0)
                 throw new IllegalArgumentException("Timeout must not be negative");
@@ -506,6 +531,7 @@ public class DefaultLitePullConsumerImpl implements MQConsumerInner {
             }
             long endTime = System.currentTimeMillis() + timeout;
 
+//            consumer request阻塞队列
             ConsumeRequest consumeRequest = consumeRequestCache.poll(endTime - System.currentTimeMillis(), TimeUnit.MILLISECONDS);
 
             if (endTime - System.currentTimeMillis() > 0) {
@@ -601,11 +627,13 @@ public class DefaultLitePullConsumerImpl implements MQConsumerInner {
                 if (consumerOffset != -1) {
                     ProcessQueue processQueue = assignedMessageQueue.getProcessQueue(messageQueue);
                     if (processQueue != null && !processQueue.isDropped()) {
+//                        更新offset
                         updateConsumeOffset(messageQueue, consumerOffset);
                     }
                 }
             }
             if (defaultLitePullConsumer.getMessageModel() == MessageModel.BROADCASTING) {
+//                持久化offset
                 offsetStore.persistAll(assignedMessageQueue.messageQueues());
             }
         } catch (Exception e) {
@@ -700,6 +728,7 @@ public class DefaultLitePullConsumerImpl implements MQConsumerInner {
                     return;
                 }
 
+//                消费流控
                 if (consumeRequestCache.size() * defaultLitePullConsumer.getPullBatchSize() > defaultLitePullConsumer.getPullThresholdForAll()) {
                     scheduledThreadPoolExecutor.schedule(this, PULL_TIME_DELAY_MILLS_WHEN_FLOW_CONTROL, TimeUnit.MILLISECONDS);
                     if ((consumeRequestFlowControlTimes++ % 1000) == 0)

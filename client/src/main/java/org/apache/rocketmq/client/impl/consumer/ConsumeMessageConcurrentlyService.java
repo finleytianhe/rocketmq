@@ -82,6 +82,7 @@ public class ConsumeMessageConcurrentlyService implements ConsumeMessageService 
         this.cleanExpireMsgExecutors = Executors.newSingleThreadScheduledExecutor(new ThreadFactoryImpl("CleanExpireMsgScheduledThread_"));
     }
 
+//    15min一次清理过期的消息
     public void start() {
         this.cleanExpireMsgExecutors.scheduleAtFixedRate(new Runnable() {
 

@@ -77,6 +77,7 @@ public class NettyRemotingClient extends NettyRemotingAbstract implements Remoti
     private final Bootstrap bootstrap = new Bootstrap();
     private final EventLoopGroup eventLoopGroupWorker;
     private final Lock lockChannelTables = new ReentrantLock();
+    //channel缓存
     private final ConcurrentMap<String /* addr */, ChannelWrapper> channelTables = new ConcurrentHashMap<String, ChannelWrapper>();
 
     private final Timer timer = new Timer("ClientHouseKeepingService", true);
@@ -200,6 +201,7 @@ public class NettyRemotingClient extends NettyRemotingAbstract implements Remoti
                     log.error("scanResponseTable exception", e);
                 }
             }
+//            定时3s检查响应
         }, 1000 * 3, 1000);
 
         if (this.channelEventListener != null) {
@@ -212,10 +214,12 @@ public class NettyRemotingClient extends NettyRemotingAbstract implements Remoti
         try {
             this.timer.cancel();
 
+//            关闭channel
             for (ChannelWrapper cw : this.channelTables.values()) {
                 this.closeChannel(null, cw.getChannel());
             }
 
+//            清空channel缓存
             this.channelTables.clear();
 
             this.eventLoopGroupWorker.shutdownGracefully();

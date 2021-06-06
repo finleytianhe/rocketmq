@@ -55,7 +55,8 @@ import org.apache.rocketmq.remoting.exception.RemotingException;
  * <p> <strong>Thread Safety:</strong> After configuring and starting process, this class can be regarded as thread-safe
  * and used among multiple threads context. </p>
  */
-//线程安全的producer
+//该类是打算发送消息的应用程序的入口点。对公开getter/setter方法的字段进行调优是可以的，但请记住，对于大多数场景，它们都应该是开箱即用的。该类聚合各种发送方法来将消息传递给代理。每一种都有优点和缺点;在实际编写代码之前，您最好了解它们的优缺点。
+//线程安全:配置并启动进程后，该类可视为线程安全的，用于多个线程上下文。
 public class DefaultMQProducer extends ClientConfig implements MQProducer {
 
     /**
@@ -71,7 +72,8 @@ public class DefaultMQProducer extends ClientConfig implements MQProducer {
      *
      * See {@linktourl http://rocketmq.apache.org/docs/core-concept/} for more discussion.
      */
-    private String producerGroup;//生产者组
+//    生产者组在概念上聚合了角色完全相同的所有生产者实例，这在涉及事务消息时特别重要。对于非事务性消息，只要每个进程都是唯一的就没关系。
+    private String producerGroup;
 
     /**
      * Just for testing or demo program
@@ -91,14 +93,15 @@ public class DefaultMQProducer extends ClientConfig implements MQProducer {
     /**
      * Compress message body threshold, namely, message body larger than 4k will be compressed on default.
      */
-    private int compressMsgBodyOverHowmuch = 1024 * 4;//大于4k的消息被压缩
+//    压缩消息体阈值，缺省情况下，大于4k的消息体将被压缩。
+    private int compressMsgBodyOverHowmuch = 1024 * 4;
 
     /**
      * Maximum number of retry to perform internally before claiming sending failure in synchronous mode. </p>
      *
      * This may potentially cause message duplication which is up to application developers to resolve.
      */
-//    同步发送失败重试次数，可能会重复消费，业务测接口要做幂等
+//    在同步模式下声明发送失败之前，内部重试执行的最大次数。这可能会导致消息复制，这取决于应用程序开发人员来解决。
     private int retryTimesWhenSendFailed = 2;
 
     /**
@@ -106,13 +109,13 @@ public class DefaultMQProducer extends ClientConfig implements MQProducer {
      *
      * This may potentially cause message duplication which is up to application developers to resolve.
      */
-//    异步发送失败重试次数
+//    在异步模式中声明发送失败之前，内部重试执行的最大次数。这可能会导致消息复制，这取决于应用程序开发人员来解决。
     private int retryTimesWhenSendAsyncFailed = 2;
 
     /**
      * Indicate whether to retry another broker on sending failure internally.
      */
-//    内部发送失败时重试另一个broker
+//    指示是否在内部发送失败时重试另一个代理。
     private boolean retryAnotherBrokerWhenNotStoreOK = false;
 
     /**

@@ -83,10 +83,12 @@ public class DefaultMQPushConsumerImpl implements MQConsumerInner {
     /**
      * Delay some time when exception occur
      */
+//    异常延迟拉取时间
     private long pullTimeDelayMillsWhenException = 3000;
     /**
      * Flow control interval
      */
+//    延迟流控时间
     private static final long PULL_TIME_DELAY_MILLS_WHEN_FLOW_CONTROL = 50;
     /**
      * Delay some time when suspend pull service
@@ -211,6 +213,7 @@ public class DefaultMQPushConsumerImpl implements MQConsumerInner {
     }
 
     public void pullMessage(final PullRequest pullRequest) {
+//        查询处理队列
         final ProcessQueue processQueue = pullRequest.getProcessQueue();
         if (processQueue.isDropped()) {
             log.info("the pull request[{}] is dropped.", pullRequest.toString());
@@ -220,9 +223,11 @@ public class DefaultMQPushConsumerImpl implements MQConsumerInner {
         pullRequest.getProcessQueue().setLastPullTimestamp(System.currentTimeMillis());
 
         try {
+//            状态是否是正常运行
             this.makeSureStateOK();
         } catch (MQClientException e) {
             log.warn("pullMessage exception, consumer state not ok", e);
+//            异常后3s后重新拉取
             this.executePullRequestLater(pullRequest, pullTimeDelayMillsWhenException);
             return;
         }
@@ -236,8 +241,11 @@ public class DefaultMQPushConsumerImpl implements MQConsumerInner {
         long cachedMessageCount = processQueue.getMsgCount().get();
         long cachedMessageSizeInMiB = processQueue.getMsgSize().get() / (1024 * 1024);
 
+//        缓存的消息数量大于1000
         if (cachedMessageCount > this.defaultMQPushConsumer.getPullThresholdForQueue()) {
+//            50ms后重新拉取
             this.executePullRequestLater(pullRequest, PULL_TIME_DELAY_MILLS_WHEN_FLOW_CONTROL);
+//            流控1000次会警告
             if ((queueFlowControlTimes++ % 1000) == 0) {
                 log.warn(
                     "the cached message count exceeds the threshold {}, so do flow control, minOffset={}, maxOffset={}, count={}, size={} MiB, pullRequest={}, flowControlTimes={}",
@@ -246,8 +254,10 @@ public class DefaultMQPushConsumerImpl implements MQConsumerInner {
             return;
         }
 
+//        缓存1M的消息大于100条
         if (cachedMessageSizeInMiB > this.defaultMQPushConsumer.getPullThresholdSizeForQueue()) {
             this.executePullRequestLater(pullRequest, PULL_TIME_DELAY_MILLS_WHEN_FLOW_CONTROL);
+//            超过1000次警告
             if ((queueFlowControlTimes++ % 1000) == 0) {
                 log.warn(
                     "the cached message size exceeds the threshold {} MiB, so do flow control, minOffset={}, maxOffset={}, count={}, size={} MiB, pullRequest={}, flowControlTimes={}",
@@ -271,6 +281,7 @@ public class DefaultMQPushConsumerImpl implements MQConsumerInner {
             if (processQueue.isLocked()) {
                 if (!pullRequest.isLockedFirst()) {
                     final long offset = this.rebalanceImpl.computePullFromWhere(pullRequest.getMessageQueue());
+//                    broker消费繁忙
                     boolean brokerBusy = offset < pullRequest.getNextOffset();
                     log.info("the first time to pull message, so fix offset from broker. pullRequest: {} NewOffset: {} brokerBusy: {}",
                         pullRequest, offset, brokerBusy);
@@ -283,6 +294,7 @@ public class DefaultMQPushConsumerImpl implements MQConsumerInner {
                     pullRequest.setNextOffset(offset);
                 }
             } else {
+//                没有锁定processQueue 3s后重试
                 this.executePullRequestLater(pullRequest, pullTimeDelayMillsWhenException);
                 log.info("pull message later because not locked in broker, {}", pullRequest);
                 return;
@@ -319,6 +331,7 @@ public class DefaultMQPushConsumerImpl implements MQConsumerInner {
                             } else {
                                 firstMsgOffset = pullResult.getMsgFoundList().get(0).getQueueOffset();
 
+//                                统计TPS
                                 DefaultMQPushConsumerImpl.this.getConsumerStatsManager().incPullTPS(pullRequest.getConsumerGroup(),
                                     pullRequest.getMessageQueue().getTopic(), pullResult.getMsgFoundList().size());
 
@@ -351,6 +364,7 @@ public class DefaultMQPushConsumerImpl implements MQConsumerInner {
                         case NO_MATCHED_MSG:
                             pullRequest.setNextOffset(pullResult.getNextBeginOffset());
 
+//                            更新offset
                             DefaultMQPushConsumerImpl.this.correctTagsOffset(pullRequest);
 
                             DefaultMQPushConsumerImpl.this.executePullRequestImmediately(pullRequest);
@@ -378,6 +392,7 @@ public class DefaultMQPushConsumerImpl implements MQConsumerInner {
                                         log.error("executeTaskLater Exception", e);
                                     }
                                 }
+//                                10s一次
                             }, 10000);
                             break;
                         default:
@@ -392,6 +407,7 @@ public class DefaultMQPushConsumerImpl implements MQConsumerInner {
                     log.warn("execute the pull request exception", e);
                 }
 
+//                异常3s后重试
                 DefaultMQPushConsumerImpl.this.executePullRequestLater(pullRequest, pullTimeDelayMillsWhenException);
             }
         };
@@ -429,6 +445,7 @@ public class DefaultMQPushConsumerImpl implements MQConsumerInner {
                 subscriptionData.getExpressionType(),
                 subscriptionData.getSubVersion(),
                 pullRequest.getNextOffset(),
+//                批量拉取消息条数32
                 this.defaultMQPushConsumer.getPullBatchSize(),
                 sysFlag,
                 commitOffsetValue,

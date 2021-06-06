@@ -401,6 +401,7 @@ public abstract class NettyRemotingAbstract {
             Entry<Integer, ResponseFuture> next = it.next();
             ResponseFuture rep = next.getValue();
 
+//            响应超时处理
             if ((rep.getBeginTimestamp() + rep.getTimeoutMillis() + 1000) <= System.currentTimeMillis()) {
 //                超时释放信号量
                 rep.release();
