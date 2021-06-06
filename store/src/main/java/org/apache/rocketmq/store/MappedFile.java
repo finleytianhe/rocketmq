@@ -202,6 +202,8 @@ public class MappedFile extends ReferenceResource {
 
         int currentPos = this.wrotePosition.get();
 
+//        this.wrotePosition = {AtomicInteger@19052} "51516"
+//        this.fileSize = 1073741824
         if (currentPos < this.fileSize) {
             ByteBuffer byteBuffer = writeBuffer != null ? writeBuffer.slice() : this.mappedByteBuffer.slice();
             byteBuffer.position(currentPos);

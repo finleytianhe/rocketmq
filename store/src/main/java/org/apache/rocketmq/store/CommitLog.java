@@ -593,6 +593,7 @@ public class CommitLog {
 
         long elapsedTimeInLock = 0;
         MappedFile unlockMappedFile = null;
+//        mappedFile = {MappedFile@14364} "/Users/jiangweifeng/store/commitlog/00000000000000000000"
         MappedFile mappedFile = this.mappedFileQueue.getLastMappedFile();
 
         putMessageLock.lock(); //spin or ReentrantLock ,depending on store config

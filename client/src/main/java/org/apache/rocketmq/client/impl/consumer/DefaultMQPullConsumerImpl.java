@@ -530,6 +530,7 @@ public class DefaultMQPullConsumerImpl implements MQConsumerInner {
 
     public PullResult pullBlockIfNotFound(MessageQueue mq, String subExpression, long offset, int maxNums)
         throws MQClientException, RemotingException, MQBrokerException, InterruptedException {
+//        subscriptionData = {SubscriptionData@2374} "SubscriptionData [classFilterMode=false, topic=TopicTest, subString=*, tagsSet=[], codeSet=[], subVersion=1622985780480, expressionType=TAG]"
         SubscriptionData subscriptionData = getSubscriptionData(mq, subExpression);
         return this.pullSyncImpl(mq, subscriptionData, offset, maxNums, true, this.getDefaultMQPullConsumer().getConsumerPullTimeoutMillis());
     }
@@ -651,9 +652,11 @@ public class DefaultMQPullConsumerImpl implements MQConsumerInner {
                 } else {
                     switch (this.defaultMQPullConsumer.getMessageModel()) {
                         case BROADCASTING:
+//                            广播消费offset在本地存储
                             this.offsetStore = new LocalFileOffsetStore(this.mQClientFactory, this.defaultMQPullConsumer.getConsumerGroup());
                             break;
                         case CLUSTERING:
+//                            集群消费offset在broker端存储
                             this.offsetStore = new RemoteBrokerOffsetStore(this.mQClientFactory, this.defaultMQPullConsumer.getConsumerGroup());
                             break;
                         default:

@@ -131,6 +131,7 @@ public class PullMessageProcessor extends AsyncNettyRequestProcessor implements 
         final long suspendTimeoutMillisLong = hasSuspendFlag ? requestHeader.getSuspendTimeoutMillis() : 0;
 
 //        查询topic
+//        topicConfig = {TopicConfig@6102} "TopicConfig [topicName=TopicTest, readQueueNums=4, writeQueueNums=4, perm=RW-, topicFilterType=SINGLE_TAG, topicSysFlag=0, order=false]"
         TopicConfig topicConfig = this.brokerController.getTopicConfigManager().selectTopicConfig(requestHeader.getTopic());
         if (null == topicConfig) {
             log.error("the topic {} not exist, consumer: {}", requestHeader.getTopic(), RemotingHelper.parseChannelRemoteAddr(channel));
@@ -160,6 +161,7 @@ public class PullMessageProcessor extends AsyncNettyRequestProcessor implements 
         if (hasSubscriptionFlag) {
             try {
 //               根据tag订阅数据
+//                SubscriptionData [classFilterMode=false, topic=TopicTest, subString=*, tagsSet=[], codeSet=[], subVersion=1622991895845, expressionType=TAG]
                 subscriptionData = FilterAPI.build(
                     requestHeader.getTopic(), requestHeader.getSubscription(), requestHeader.getExpressionType()
                 );

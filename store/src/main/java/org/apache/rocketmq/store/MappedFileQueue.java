@@ -300,6 +300,7 @@ public class MappedFileQueue {
     }
 
     public long getMaxOffset() {
+//        mappedFile = {MappedFile@12133} "/Users/jiangweifeng/store/commitlog/00000000000000000000"
         MappedFile mappedFile = getLastMappedFile();
         if (mappedFile != null) {
             return mappedFile.getFileFromOffset() + mappedFile.getReadPosition();
